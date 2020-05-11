@@ -28,5 +28,5 @@ app.use(function(req, res, next) {
 });
 
 app.listen(process.env.PORT, "0.0.0.0", function() {
-  console.log("My super vue app is listening on port 8080");
+  console.log("My super vue app is listening on port " + process.env.PORT);
 });
