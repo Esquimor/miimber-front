@@ -2,8 +2,7 @@ import axios from "axios";
 import router from "@/router";
 import store from "@/store";
 
-const route =
-  "http://miimberbackprod-env.eba-erc9khex.eu-west-3.elasticbeanstalk.com/";
+const route = process.env.VUE_APP_API;
 
 export default {
   postNoAuth(
