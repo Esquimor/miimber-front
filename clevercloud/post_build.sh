@@ -1,2 +1,3 @@
+npm -v
 npm install
-npm run build --modern
+npm run build
