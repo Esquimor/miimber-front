@@ -23,10 +23,7 @@
           required
         />
       </BField>
-      <BField
-        :label="$t('core.label.password.label')"
-        :type="errorSamePassword ? 'is-danger' : ''"
-      >
+      <BField :label="$t('core.label.password.label')" :type="errorSamePassword ? 'is-danger' : ''">
         <BInput
           id="SignInvitation-password"
           v-model="password"
@@ -49,6 +46,12 @@
           @focus="errorSamePassword = false"
           required
         ></BInput>
+        <div class="field">
+          <b-checkbox v-model="terms">
+            {{ $t('register.terms.label')}}
+            <router-link :to="{name: 'terms'}">{{ $t('register.terms.link') }}</router-link>
+          </b-checkbox>
+        </div>
       </BField>
     </form>
   </TemplateForm>
@@ -66,6 +69,7 @@ export default {
   },
   data() {
     return {
+      terms: false,
       firstName: "",
       lastName: "",
       password: "",
@@ -80,7 +84,9 @@ export default {
         this.firstName !== "" &&
         this.lastName !== "" &&
         this.password !== "" &&
-        this.password === this.confirm
+        this.confirm !== "" &&
+        this.password === this.confirm &&
+        this.terms
       );
     }
   },
