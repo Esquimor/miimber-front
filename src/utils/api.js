@@ -10,10 +10,10 @@ export default {
     params,
     { errorRedirect, errorMessage } = {
       errorRedirect: false,
-      errorMessage: false,
+      errorMessage: false
     }
   ) {
-    return axios.post(`${route}/${endpoint}`, params).catch((e) => {
+    return axios.post(`${route}/${endpoint}`, params).catch(e => {
       if (errorRedirect) {
         dealErrorRedirect(e);
       }
@@ -28,18 +28,18 @@ export default {
     params,
     { errorRedirect, errorMessage } = {
       errorRedirect: false,
-      errorMessage: false,
+      errorMessage: false
     }
   ) {
     return axios
       .get(`${route}/${endpoint}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        params,
+        params
       })
-      .catch((e) => {
+      .catch(e => {
         if (errorRedirect) {
           dealErrorRedirect(e);
         }
@@ -54,12 +54,12 @@ export default {
     params,
     { errorRedirect, errorMessage } = {
       errorRedirect: false,
-      errorMessage: false,
+      errorMessage: false
     }
   ) {
     return axios
       .post(`${route}/${endpoint}`, params, { headers: setToken() })
-      .catch((e) => {
+      .catch(e => {
         if (errorRedirect) {
           dealErrorRedirect(e);
         }
@@ -74,12 +74,12 @@ export default {
     params,
     { errorRedirect, errorMessage } = {
       errorRedirect: false,
-      errorMessage: false,
+      errorMessage: false
     }
   ) {
     return axios
       .put(`${route}/${endpoint}`, params, { headers: setToken() })
-      .catch((e) => {
+      .catch(e => {
         if (errorRedirect) {
           dealErrorRedirect(e);
         }
@@ -94,12 +94,12 @@ export default {
     params,
     { errorRedirect, errorMessage } = {
       errorRedirect: false,
-      errorMessage: false,
+      errorMessage: false
     }
   ) {
     return axios
       .put(`${route}/${endpoint}`, params, { headers: setToken() })
-      .catch((e) => {
+      .catch(e => {
         if (errorRedirect) {
           dealErrorRedirect(e);
         }
@@ -114,7 +114,7 @@ export default {
     params,
     { errorRedirect, errorMessage } = {
       errorRedirect: false,
-      errorMessage: false,
+      errorMessage: false
     }
   ) {
     return axios
@@ -122,7 +122,7 @@ export default {
         `${route}/${endpoint}`,
         Object.assign({ headers: setToken() }, { params: params })
       )
-      .catch((e) => {
+      .catch(e => {
         if (errorRedirect) {
           dealErrorRedirect(e);
         }
@@ -131,12 +131,12 @@ export default {
         }
         return Promise.reject(e);
       });
-  },
+  }
 };
 
 function setToken() {
   return {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    Authorization: `Bearer ${localStorage.getItem("token")}`
   };
 }
 

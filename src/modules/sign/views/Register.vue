@@ -2,17 +2,14 @@
   <TemplateSign>
     <template v-slot:rigth>
       <form class="Register-form" @submit.prevent>
-        <h1 class="Register-form-title is-size-3">
-          {{ $t("register.utils.title") }}
-        </h1>
+        <h1 class="Register-form-title is-size-3">{{ $t("register.utils.title") }}</h1>
         <BNotification
           v-if="error"
           class="Register-form-error"
           type="is-danger"
           aria-close-label="Close notification"
           role="alert"
-          >{{ $t("register.utils.error") }}</BNotification
-        >
+        >{{ $t("register.utils.error") }}</BNotification>
         <BField :label="$t('core.label.firstName.label')">
           <BInput
             id="SignRegister-firstName"
@@ -67,6 +64,12 @@
             required
           ></BInput>
         </BField>
+        <div class="field">
+          <b-checkbox v-model="terms">
+            {{ $t('register.terms.label')}}
+            <router-link :to="{name: 'terms'}">{{ $t('register.terms.link') }}</router-link>
+          </b-checkbox>
+        </div>
         <div class="Register-form-submit">
           <button
             id="SignRegister-submit"
@@ -75,17 +78,13 @@
             :class="{ 'is-loading': loading }"
             @click="register"
             :disabled="!isRegistable"
-          >
-            {{ $t("register.utils.submit") }}
-          </button>
+          >{{ $t("register.utils.submit") }}</button>
         </div>
       </form>
       <div class="Register-bottom">
         <span>
           {{ $t("register.login.label") }}
-          <router-link :to="{ name: 'login' }">
-            {{ $t("register.login.link") }}
-          </router-link>
+          <router-link :to="{ name: 'login' }">{{ $t("register.login.link") }}</router-link>
         </span>
       </div>
     </template>
@@ -104,6 +103,7 @@ export default {
   },
   data() {
     return {
+      terms: false,
       email: "",
       firstName: "",
       lastName: "",
@@ -121,7 +121,9 @@ export default {
         this.firstName !== "" &&
         this.lastName !== "" &&
         this.password !== "" &&
-        !this.errorSamePassword
+        this.confirm !== "" &&
+        !this.errorSamePassword &&
+        this.terms
       );
     }
   },
@@ -147,6 +149,7 @@ export default {
           this.loading = false;
         })
         .catch(() => {
+          this.terms = false;
           this.password = "";
           this.confirm = "";
           this.error = true;
