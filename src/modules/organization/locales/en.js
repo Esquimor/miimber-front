@@ -88,11 +88,15 @@ export default {
       },
       add: {
         title: "Add a session",
+        titleMultiple: "Add a sessions",
         success: "Session added",
+        successMultiple: "Sessions added",
       },
       edit: {
         title: "Edit a session",
         success: "Session edited",
+        messageTitle: "Validate the modification",
+        messageMsg: "This change may remove the statistics session.",
       },
       delete: {
         title: "Delete a session",
@@ -178,6 +182,7 @@ export default {
     },
     forum: {
       title: "Forum",
+      empty: "No category found",
       label: {
         title: "Title",
         add: "Add a category",
@@ -196,6 +201,7 @@ export default {
       },
     },
     subjectforum: {
+      empty: "No subject found",
       label: {
         title: "Title",
         add: "Add a subject",

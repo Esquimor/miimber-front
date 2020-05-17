@@ -1,6 +1,6 @@
 <template>
   <TemplateSidePanelRight
-    :title="$t('organization.sessions.add.title')"
+    :title="$t('organization.sessions.add.titleMultiple')"
     :loading="loading"
     :disabled="false"
     hasPadding
@@ -70,7 +70,7 @@ export default {
         })
         .then(() => {
           this.$buefy.toast.open({
-            message: this.$t("organization.sessions.add.success"),
+            message: this.$t("organization.sessions.add.successMultiple"),
             type: "is-primary"
           });
           this.$store.dispatch("core/closeSideBar");

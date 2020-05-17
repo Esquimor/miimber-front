@@ -1,6 +1,6 @@
 <template>
   <TemplateSidePanelRight
-    :title="$t('organization.sessions.add.title')"
+    :title="$t('organization.sessions.add.titleMultiple')"
     :loading="loading"
     :disabled="!canConfirm"
     hasPadding
@@ -67,7 +67,7 @@
       </div>
       <div class="column" v-if="hasLimit">
         <BField :label="$t('organization.sessions.label.limit')">
-          <BNumberinput v-model="session.limit" min="0"></BNumberinput>
+          <BNumberinput v-model="session.limit" min="1"></BNumberinput>
         </BField>
       </div>
     </div>
@@ -87,7 +87,7 @@
     <div class="columns">
       <div class="column">
         <BField :label="$t('organization.sessions.label.description')">
-          <BInput v-model.trim="session.description" maxlength="500" type="textarea"></BInput>
+          <BInput v-model.trim="session.description" maxlength="2000" type="textarea"></BInput>
         </BField>
       </div>
     </div>
@@ -190,7 +190,7 @@ export default {
         })
         .then(() => {
           this.$buefy.toast.open({
-            message: this.$t("organization.sessions.add.success"),
+            message: this.$t("organization.sessions.add.successMultiple"),
             type: "is-primary"
           });
           this.$store.dispatch("core/closeSideBar");
@@ -221,6 +221,15 @@ export default {
   },
   mounted() {
     this.session.typeSession = this.typeSessions[0].id;
+  },
+  watch: {
+    hasLimit(newVal) {
+      if (newVal) {
+        this.session.limit = 1;
+      } else {
+        this.session.limit = 0;
+      }
+    }
   }
 };
 </script>

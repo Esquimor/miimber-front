@@ -23,18 +23,14 @@
             class="button is-outlined is-danger"
             @click="closeSideBar"
             :disabled="loading"
-          >
-            {{ $t("core.utils.cancel") }}
-          </button>
+          >{{ $t("core.utils.cancel") }}</button>
           <button
             id="TemplateSidePanelRight-confirm"
             class="button is-primary"
             :class="{ 'is-loading': loading }"
             :disabled="disabled"
             @click="confirm"
-          >
-            {{ $t("core.utils.confirm") }}
-          </button>
+          >{{ $t("core.utils.confirm") }}</button>
         </footer>
       </slot>
     </main>
@@ -94,7 +90,7 @@ export default {
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 1500;
+  z-index: 30;
   &-background {
     cursor: pointer;
     flex-grow: 1;

@@ -52,18 +52,17 @@
     </div>
     <div class="columns">
       <div class="column" :class="{ 'is-half': !hasLimit }">
-        <BField
-          :label="$t('organization.templateSessions.label.hasLimit')"
-          style="height: 68px;"
-        >
-          <BSwitch v-model="hasLimit">{{
+        <BField :label="$t('organization.templateSessions.label.hasLimit')" style="height: 68px;">
+          <BSwitch v-model="hasLimit">
+            {{
             hasLimit ? $t("core.utils.yes") : $t("core.utils.no")
-          }}</BSwitch>
+            }}
+          </BSwitch>
         </BField>
       </div>
       <div class="column" v-if="hasLimit">
         <BField :label="$t('organization.templateSessions.label.limit')">
-          <BNumberinput v-model="session.limit" min="0"></BNumberinput>
+          <BNumberinput v-model="session.limit" min="1"></BNumberinput>
         </BField>
       </div>
     </div>
@@ -75,8 +74,7 @@
               v-for="typeSession in typeSessions"
               :value="typeSession.id"
               :key="typeSession.id"
-              >{{ typeSession.name }}</option
-            >
+            >{{ typeSession.name }}</option>
           </BSelect>
         </BField>
       </div>
@@ -84,11 +82,7 @@
     <div class="columns">
       <div class="column">
         <BField :label="$t('organization.templateSessions.label.description')">
-          <BInput
-            v-model.trim="session.description"
-            maxlength="500"
-            type="textarea"
-          ></BInput>
+          <BInput v-model.trim="session.description" maxlength="2000" type="textarea"></BInput>
         </BField>
       </div>
     </div>
@@ -218,6 +212,15 @@ export default {
   },
   mounted() {
     this.session.typeSession = this.typeSessions[0].id;
+  },
+  watch: {
+    hasLimit(newVal) {
+      if (newVal) {
+        this.session.limit = 1;
+      } else {
+        this.session.limit = 0;
+      }
+    }
   }
 };
 </script>

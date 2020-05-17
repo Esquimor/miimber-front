@@ -53,7 +53,7 @@ export default {
         })
         .then(() => {
           this.$buefy.toast.open({
-            message: this.$t("organization.forum.subjectforum.success"),
+            message: this.$t("organization.subjectforum.add.success"),
             type: "is-primary"
           });
           this.$store.dispatch("core/closeSideBar");

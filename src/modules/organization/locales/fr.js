@@ -86,15 +86,20 @@ export default {
         simple: "Ajout unique",
         multiple: "Ajout sur une période",
         fromTemplate: "Utiliser un modèle",
-        newAll: "Créer un modèle et les sessions",
+        newAll: "Créer un modèle et des sessions",
       },
       add: {
         title: "Ajouter une session",
+        titleMultiple: "Ajouter des sessions",
         success: "Session ajouté",
+        successMultiple: "Sessions ajoutés",
       },
       edit: {
         title: "Modifier une session",
         success: "Session modifié",
+        messageTitle: "Valider la modification",
+        messageMsg:
+          "Cette modification peut enlever la session des statistique.",
       },
       delete: {
         title: "Supprimer une session",
@@ -181,6 +186,7 @@ export default {
     },
     forum: {
       title: "Forum",
+      empty: "Aucune catégorie trouvée",
       label: {
         title: "Titre",
         add: "Ajouter une categorie",
@@ -196,6 +202,7 @@ export default {
       },
     },
     subjectforum: {
+      empty: "Aucun sujet trouvé",
       label: {
         title: "Titre",
         add: "Ajouter un sujet",

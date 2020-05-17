@@ -298,7 +298,8 @@ export default {
           { errorMessage: true }
         )
         .then(({ data }) => {
-          commit(types.ORG_ADD_SESSIONS, data);
+          commit(types.ORG_ADD_SESSIONS, data.sessions);
+          commit(types.ORG_ADD_TEMPLATE_SESSION, data.templateSession);
         })
         .catch((e) => {
           return Promise.reject(e);
@@ -324,14 +325,15 @@ export default {
     },
     editSession(
       { commit },
-      { title, description, start, end, typeSessionId, limit, id }
+      { title, description, start, end, date, typeSessionId, limit, id }
     ) {
       return api
         .put(`session/${id}`, {
           title,
           description,
-          start,
-          end,
+          start: dayjs(start).format("HH:mm:ssZ"),
+          end: dayjs(end).format("HH:mm:ssZ"),
+          sessionDate: dayjs(date).format("YYYY-MM-DD"),
           typeSessionId,
           limit,
         })
@@ -668,7 +670,7 @@ export default {
         return (list = [
           ...list,
           {
-            subjects: element.subjects,
+            subjects: element.subjects || [],
             id: element.id,
             title: category.title,
             position: category.position,
@@ -683,6 +685,7 @@ export default {
       const categoryForum = state.categoriesForum.find(
         (t) => t.id === idCategory
       );
+      console.log(categoryForum);
       categoryForum.subjects.push({ id, title, position });
     },
     [types.ORG_EDIT_FORUM_SUBJECT](state, { title, position, id, idCategory }) {

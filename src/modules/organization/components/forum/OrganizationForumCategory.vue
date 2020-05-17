@@ -10,14 +10,8 @@
             type="is-primary"
             @click.native="passToEdit"
             outlined
-            >Modifier</BButton
-          >
-          <BButton
-            @click.native="remove"
-            icon-left="delete"
-            type="is-danger"
-            outlined
-          />
+          >Modifier</BButton>
+          <BButton @click.native="remove" icon-left="delete" type="is-danger" outlined />
         </div>
       </template>
       <template v-else>
@@ -29,14 +23,8 @@
             type="is-primary"
             :loading="loading"
             @click.native="save"
-            >Enregistrer</BButton
-          >
-          <BButton
-            @click.native="passToView"
-            icon-left="close"
-            type="is-danger"
-            outlined
-          />
+          >Enregistrer</BButton>
+          <BButton @click.native="passToView" icon-left="close" type="is-danger" outlined />
         </div>
       </template>
     </div>
@@ -49,9 +37,11 @@
       />
     </draggable>
     <div class="OrganizationForumCategory-addSubject">
-      <BButton icon-left="plus" type="is-primary" @click.native="add">{{
+      <BButton icon-left="plus" type="is-primary" @click.native="add">
+        {{
         $t("organization.subjectforum.label.add")
-      }}</BButton>
+        }}
+      </BButton>
     </div>
   </div>
 </template>
@@ -88,7 +78,10 @@ export default {
     myList: {
       get() {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        return this.category.subjects.sort((a, b) => a.position - b.position);
+        return this.category.subjects
+          ? // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+            this.category.subjects.sort((a, b) => a.position - b.position)
+          : [];
       },
       set(value) {
         let loading = this.$buefy.loading.open({});
