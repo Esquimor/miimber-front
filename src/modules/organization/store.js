@@ -5,33 +5,37 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
+import { TEMPLATE_SESSION_STATUS } from "@/utils/consts";
+
 export default {
   namespaced: true,
   state: {
     organization: null,
     typeSessions: [],
     sessions: [],
-    categoriesForum: []
+    categoriesForum: [],
+    templateSessions: [],
   },
   getters: {
-    organization: state => state.organization,
-    organizationMembers: state => state.organization.members,
-    typeSessions: state => state.typeSessions,
-    sessions: state => state.sessions,
-    categoriesForum: state => state.categoriesForum
+    organization: (state) => state.organization,
+    organizationMembers: (state) => state.organization.members,
+    typeSessions: (state) => state.typeSessions,
+    templateSessions: (state) => state.templateSessions,
+    sessions: (state) => state.sessions,
+    categoriesForum: (state) => state.categoriesForum,
   },
   actions: {
     setOrganization({ commit, dispatch }, id) {
       return api
         .get(`organization/${id}/manage`, {}, { errorRedirect: true })
-        .then(organization => {
+        .then((organization) => {
           dispatch("core/getMember", organization.data.id, { root: true }).then(
             () => {
               commit(types.ORG_SET_ORGANIZATION, organization.data);
             }
           );
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -45,7 +49,7 @@ export default {
         .then(({ data }) => {
           commit(types.ORG_EDIT_ORGANIZATION, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -59,7 +63,7 @@ export default {
         .then(() => {
           return Promise.resolve();
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -68,14 +72,14 @@ export default {
         .put(
           `organization/${state.organization.id}/card`,
           {
-            token
+            token,
           },
           { errorMessage: true }
         )
         .then(() => {
           return Promise.resolve();
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -84,14 +88,14 @@ export default {
         .put(
           `member/${id}`,
           {
-            role
+            role,
           },
           { errorMessage: true }
         )
         .then(({ data }) => {
           commit(types.ORG_CHANGE_MEMBER_ROLE, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -108,14 +112,14 @@ export default {
             firstName,
             lastName,
             role,
-            lang
+            lang,
           },
           { errorMessage: true }
         )
         .then(({ data }) => {
           commit(types.ORG_ADD_MEMBER, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -125,14 +129,14 @@ export default {
           "member/",
           {
             idOrganization: organizationId,
-            idUser: userId
+            idUser: userId,
           },
           { errorMessage: true }
         )
         .then(({ data }) => {
           commit(types.ORG_ADD_MEMBER, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -142,7 +146,7 @@ export default {
         .then(() => {
           commit(types.ORG_REMOVE_MEMBER, id);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -156,7 +160,7 @@ export default {
         .then(({ data }) => {
           commit(types.ORG_SET_TYPE_SESSIONS, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -166,14 +170,14 @@ export default {
           "type-session/",
           {
             name,
-            organizationId: state.organization.id
+            organizationId: state.organization.id,
           },
           { errorMessage: true }
         )
         .then(({ data }) => {
           commit(types.ORG_ADD_TYPE_SESSION, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -182,14 +186,14 @@ export default {
         .put(
           `type-session/${id}`,
           {
-            name
+            name,
           },
           { errorMessage: true }
         )
         .then(({ data }) => {
           commit(types.ORG_EDIT_TYPE_SESSION, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -198,14 +202,14 @@ export default {
         .put(
           `type-session/${id}`,
           {
-            name
+            name,
           },
           { errorMessage: true }
         )
         .then(() => {
           commit(types.ORG_DELETE_TYPE_SESSION, id);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -214,15 +218,15 @@ export default {
         .get(
           `organization/${state.organization.id}/session/`,
           {
-            minDate: dayjs(minDate).format("YYYY-MM-DDTHH:mm:ssZ"),
-            maxDate: dayjs(maxDate).format("YYYY-MM-DDTHH:mm:ssZ")
+            minDate: dayjs(minDate).format("YYYY-MM-DD"),
+            maxDate: dayjs(maxDate).format("YYYY-MM-DD"),
           },
           { errorMessage: true }
         )
         .then(({ data }) => {
           commit(types.ORG_SET_SESSIONS, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -231,36 +235,90 @@ export default {
       {
         title,
         description,
-        start,
-        end,
         typeSessionId,
-        startDate,
-        endDate,
         periodicity,
-        days,
-        repeat,
-        limit
+        limit,
+        startHour,
+        endHour,
+        date,
       }
     ) {
       return api
-        .post("session/", {
-          title,
-          description,
-          start,
-          end,
-          typeSessionId,
-          startDate,
-          endDate,
-          periodicity,
-          days,
-          repeat,
-          organizationId: state.organization.id,
-          limit
-        })
+        .post(
+          "session/",
+          {
+            title,
+            description,
+            sessionDate: dayjs(date).format("YYYY-MM-DD"),
+            typeSessionId,
+            startHour: dayjs(startHour).format("HH:mm:ssZ"),
+            endHour: dayjs(endHour).format("HH:mm:ssZ"),
+            periodicity,
+            organizationId: state.organization.id,
+            limit,
+          },
+          { errorMessage: true }
+        )
         .then(({ data }) => {
           commit(types.ORG_ADD_SESSIONS, data);
         })
-        .catch(e => {
+        .catch((e) => {
+          return Promise.reject(e);
+        });
+    },
+    addSessionMultiple(
+      { commit, state },
+      {
+        title,
+        description,
+        typeSessionId,
+        periodicity,
+        day,
+        limit,
+        startHour,
+        endHour,
+        periods,
+      }
+    ) {
+      return api
+        .post(
+          "session/",
+          {
+            title,
+            description,
+            periods,
+            typeSessionId,
+            startHour: dayjs(startHour).format("HH:mm:ssZ"),
+            endHour: dayjs(endHour).format("HH:mm:ssZ"),
+            periodicity,
+            day,
+            organizationId: state.organization.id,
+            limit,
+          },
+          { errorMessage: true }
+        )
+        .then(({ data }) => {
+          commit(types.ORG_ADD_SESSIONS, data);
+        })
+        .catch((e) => {
+          return Promise.reject(e);
+        });
+    },
+    addSessionsFromTemplate({ state, commit }, { templateId, periods }) {
+      return api
+        .post(
+          "session/fromTemplate",
+          {
+            periods,
+            organizationId: state.organization.id,
+            templateId,
+          },
+          { errorMessage: true }
+        )
+        .then(({ data }) => {
+          commit(types.ORG_ADD_SESSIONS, data);
+        })
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -275,12 +333,12 @@ export default {
           start,
           end,
           typeSessionId,
-          limit
+          limit,
         })
         .then(({ data }) => {
           commit(types.ORG_EDIT_SESSION, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -290,7 +348,7 @@ export default {
         .then(() => {
           commit(types.ORG_DELETE_SESSION, id);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -304,7 +362,7 @@ export default {
         .then(({ data }) => {
           commit(types.ORG_SET_FORUM, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -313,16 +371,16 @@ export default {
         .post(
           `organization/${state.organization.id}/forum/category/`,
           {
-            title
+            title,
           },
           {
-            errorMessage: true
+            errorMessage: true,
           }
         )
         .then(({ data }) => {
           commit(types.ORG_ADD_FORUM_CATEGORY, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -333,14 +391,14 @@ export default {
           {
             id,
             title,
-            position
+            position,
           },
           { errorMessage: true }
         )
         .then(({ data }) => {
           commit(types.ORG_EDIT_FORUM_CATEGORY, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -354,7 +412,7 @@ export default {
         .then(() => {
           commit(types.ORG_DELETE_FORUM_CATEGORY, id);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -369,17 +427,17 @@ export default {
                 {
                   id: category.id,
                   title: category.title,
-                  position: index
-                }
+                  position: index,
+                },
               ]);
-            }, [])
+            }, []),
           },
           { errorMessage: true }
         )
         .then(({ data }) => {
           commit(types.ORG_EDIT_FORUM_CATEGORY_POSITION, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -389,16 +447,16 @@ export default {
           `organization/${state.organization.id}/forum/subject/`,
           {
             title: title,
-            idCategory: idCat
+            idCategory: idCat,
           },
           {
-            errorMessage: true
+            errorMessage: true,
           }
         )
         .then(({ data }) => {
           commit(types.ORG_ADD_FORUM_CATEGORY_SUBJECT, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -409,14 +467,14 @@ export default {
           {
             id,
             title,
-            position
+            position,
           },
           { errorMessage: true }
         )
         .then(({ data }) => {
           commit(types.ORG_EDIT_FORUM_SUBJECT, data);
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -430,7 +488,7 @@ export default {
         .then(() => {
           commit(types.ORG_DELETE_FORUM_SUBJECT, { idSubject, idCategory });
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
     },
@@ -445,23 +503,97 @@ export default {
                 {
                   id: subject.id,
                   title: subject.title,
-                  position: index
-                }
+                  position: index,
+                },
               ]);
-            }, [])
+            }, []),
           },
           { errorMessage: true }
         )
         .then(({ data }) => {
           commit(types.ORG_EDIT_FORUM_SUBJECT_POSITION, {
             subjects: data,
-            idCategory
+            idCategory,
           });
         })
-        .catch(e => {
+        .catch((e) => {
           return Promise.reject(e);
         });
-    }
+    },
+    setTemplateeSessionsGoing({ commit, state }) {
+      return api
+        .get(
+          `organization/${state.organization.id}/template-session/going`,
+          {},
+          { errorRedirect: true }
+        )
+        .then(({ data }) => {
+          commit(types.ORG_SET_TEMPLATE_SESSION, data);
+        })
+        .catch((e) => {
+          return Promise.reject(e);
+        });
+    },
+    setTemplateSessions({ commit, state }) {
+      return api
+        .get(
+          `organization/${state.organization.id}/template-session/`,
+          {},
+          { errorRedirect: true }
+        )
+        .then(({ data }) => {
+          commit(types.ORG_SET_TEMPLATE_SESSION, data);
+        })
+        .catch((e) => {
+          return Promise.reject(e);
+        });
+    },
+    addTemplate(
+      { commit, state },
+      {
+        title,
+        description,
+        typeSessionId,
+        periodicity,
+        day,
+        limit,
+        startHour,
+        endHour,
+      }
+    ) {
+      return api
+        .post(
+          "template-session/",
+          {
+            title,
+            description,
+            typeSessionId,
+            startHour: dayjs(startHour).format("HH:mm:ssZ"),
+            endHour: dayjs(endHour).format("HH:mm:ssZ"),
+            periodicity,
+            day,
+            organizationId: state.organization.id,
+            limit,
+          },
+          { errorMessage: true }
+        )
+        .then(({ data }) => {
+          commit(types.ORG_ADD_TEMPLATE_SESSION, data);
+        })
+        .catch((e) => {
+          return Promise.reject(e);
+        });
+    },
+    archiveTemplate({ commit }, id) {
+      return api
+        .put(`template-session/${id}/archive`, {}, { errorMessage: true })
+        .then(() => {
+          commit(types.ORG_ARCHIVE_TEMPLATE_SESSION, id);
+        })
+        .catch((e) => {
+          return Promise.reject(e);
+        });
+    },
   },
   mutations: {
     [types.ORG_SET_ORGANIZATION](state, organization) {
@@ -471,7 +603,7 @@ export default {
       state.organization.name = organization.name;
     },
     [types.ORG_CHANGE_MEMBER_ROLE](state, { id, role }) {
-      const member = state.organization.members.find(m => m.id === id);
+      const member = state.organization.members.find((m) => m.id === id);
       member.role = role;
     },
     [types.ORG_ADD_MEMBER](state, member) {
@@ -479,7 +611,7 @@ export default {
     },
     [types.ORG_REMOVE_MEMBER](state, id) {
       state.organization.members = state.organization.members.filter(
-        m => m.id !== id
+        (m) => m.id !== id
       );
     },
     [types.ORG_SET_TYPE_SESSIONS](state, typeSessions) {
@@ -489,11 +621,11 @@ export default {
       state.typeSessions.push(typeSession);
     },
     [types.ORG_EDIT_TYPE_SESSION](state, { name, id }) {
-      const editedTypeSession = state.typeSessions.find(t => t.id === id);
+      const editedTypeSession = state.typeSessions.find((t) => t.id === id);
       editedTypeSession.name = name;
     },
     [types.ORG_DELETE_TYPE_SESSION](state, id) {
-      state.typeSessions = state.typeSessions.filter(t => t.id !== id);
+      state.typeSessions = state.typeSessions.filter((t) => t.id !== id);
     },
     [types.ORG_SET_SESSIONS](state, sessions) {
       state.sessions = sessions;
@@ -505,7 +637,7 @@ export default {
       state,
       { title, description, start, end, typeSession, id, limit }
     ) {
-      const editedSession = state.sessions.find(s => s.id === id);
+      const editedSession = state.sessions.find((s) => s.id === id);
       editedSession.title = title;
       editedSession.description = description;
       editedSession.start = start;
@@ -514,7 +646,7 @@ export default {
       editedSession.limit = limit;
     },
     [types.ORG_DELETE_SESSION](state, id) {
-      state.sessions = state.sessions.filter(s => s.id !== id);
+      state.sessions = state.sessions.filter((s) => s.id !== id);
     },
     [types.ORG_SET_FORUM](state, forum) {
       state.categoriesForum = forum;
@@ -523,24 +655,24 @@ export default {
       state.categoriesForum.push(category);
     },
     [types.ORG_EDIT_FORUM_CATEGORY](state, { title, position, id }) {
-      const categoryForum = state.categoriesForum.find(t => t.id === id);
+      const categoryForum = state.categoriesForum.find((t) => t.id === id);
       categoryForum.title = title;
       categoryForum.position = position;
     },
     [types.ORG_DELETE_FORUM_CATEGORY](state, id) {
-      state.categoriesForum = state.categoriesForum.filter(c => c.id !== id);
+      state.categoriesForum = state.categoriesForum.filter((c) => c.id !== id);
     },
     [types.ORG_EDIT_FORUM_CATEGORY_POSITION](state, catogories) {
       state.categoriesForum = state.categoriesForum.reduce((list, element) => {
-        const category = catogories.find(c => c.id === element.id);
+        const category = catogories.find((c) => c.id === element.id);
         return (list = [
           ...list,
           {
             subjects: element.subjects,
             id: element.id,
             title: category.title,
-            position: category.position
-          }
+            position: category.position,
+          },
         ]);
       }, []);
     },
@@ -549,44 +681,54 @@ export default {
       { id, title, position, idCategory }
     ) {
       const categoryForum = state.categoriesForum.find(
-        t => t.id === idCategory
+        (t) => t.id === idCategory
       );
       categoryForum.subjects.push({ id, title, position });
     },
     [types.ORG_EDIT_FORUM_SUBJECT](state, { title, position, id, idCategory }) {
       const categoryForum = state.categoriesForum.find(
-        t => t.id === idCategory
+        (t) => t.id === idCategory
       );
-      const subject = categoryForum.subjects.find(t => t.id === id);
+      const subject = categoryForum.subjects.find((t) => t.id === id);
       subject.title = title;
       subject.position = position;
     },
     [types.ORG_DELETE_FORUM_SUBJECT](state, { idSubject, idCategory }) {
       const categoryForum = state.categoriesForum.find(
-        t => t.id === idCategory
+        (t) => t.id === idCategory
       );
       categoryForum.subjects = categoryForum.subjects.filter(
-        c => c.id !== idSubject
+        (c) => c.id !== idSubject
       );
     },
     [types.ORG_EDIT_FORUM_SUBJECT_POSITION](state, { subjects, idCategory }) {
       const categoryForum = state.categoriesForum.find(
-        t => t.id === idCategory
+        (t) => t.id === idCategory
       );
       categoryForum.subjects = categoryForum.subjects.reduce(
         (list, element) => {
-          const subject = subjects.find(c => c.id === element.id);
+          const subject = subjects.find((c) => c.id === element.id);
           return (list = [
             ...list,
             {
               id: element.id,
               title: subject.title,
-              position: subject.position
-            }
+              position: subject.position,
+            },
           ]);
         },
         []
       );
-    }
-  }
+    },
+    [types.ORG_SET_TEMPLATE_SESSION](state, templateSessions) {
+      state.templateSessions = templateSessions;
+    },
+    [types.ORG_ADD_TEMPLATE_SESSION](state, templateSession) {
+      state.templateSessions.push(templateSession);
+    },
+    [types.ORG_ARCHIVE_TEMPLATE_SESSION](state, id) {
+      const templateToArchive = state.templateSessions.find((c) => c.id === id);
+      templateToArchive.status = TEMPLATE_SESSION_STATUS.ARCHIVE;
+    },
+  },
 };

@@ -43,31 +43,26 @@
         </BField>
       </div>
     </div>
+    <OrganizationSessionsPeriods
+      :periods="session.periods"
+      @removePeriod="removePeriod"
+      @addPeriod="addPeriod"
+    />
     <div class="columns">
-      <div class="column is-half">
-        <BField :label="$t('organization.sessions.label.sessionDate')">
-          <BDatepicker
-            v-model="session.date"
-            icon="calendar-today"
-            trap-focus
-            :minDate="minDate"
-            :firstDayOfWeek="1"
-            :monthNames="monthNames"
-            :dayNames="dayNames"
-            :nearbyMonthDays="false"
-          ></BDatepicker>
+      <div class="column">
+        <BField :label="$t('organization.sessions.label.day')">
+          <OrganizationSessionsDays @click="changeDays" :day="recurrence.day" />
         </BField>
       </div>
     </div>
     <div class="columns">
       <div class="column" :class="{ 'is-half': !hasLimit }">
-        <BField
-          :label="$t('organization.sessions.label.hasLimit')"
-          style="height: 68px;"
-        >
-          <BSwitch v-model="hasLimit">{{
+        <BField :label="$t('organization.sessions.label.hasLimit')" style="height: 68px;">
+          <BSwitch v-model="hasLimit">
+            {{
             hasLimit ? $t("core.utils.yes") : $t("core.utils.no")
-          }}</BSwitch>
+            }}
+          </BSwitch>
         </BField>
       </div>
       <div class="column" v-if="hasLimit">
@@ -84,8 +79,7 @@
               v-for="typeSession in typeSessions"
               :value="typeSession.id"
               :key="typeSession.id"
-              >{{ typeSession.name }}</option
-            >
+            >{{ typeSession.name }}</option>
           </BSelect>
         </BField>
       </div>
@@ -93,11 +87,7 @@
     <div class="columns">
       <div class="column">
         <BField :label="$t('organization.sessions.label.description')">
-          <BInput
-            v-model.trim="session.description"
-            maxlength="500"
-            type="textarea"
-          ></BInput>
+          <BInput v-model.trim="session.description" maxlength="500" type="textarea"></BInput>
         </BField>
       </div>
     </div>
@@ -119,37 +109,32 @@ dayjs.extend(customParseFormat);
 
 import TemplateSidePanelRight from "@core/template/TemplateSidePanelRight";
 
+import OrganizationSessionsDays from "@organization/components/sessions/OrganizationSessionsDays";
+import OrganizationSessionsPeriods from "@organization/components/sessions/OrganizationSessionsPeriods";
+
 export default {
-  name: "OrganizationSessionsAdd",
+  name: "OrganizationSessionsAddMultiple",
   mixins: [calendar],
   components: {
-    TemplateSidePanelRight
+    TemplateSidePanelRight,
+    OrganizationSessionsDays,
+    OrganizationSessionsPeriods
   },
   data() {
-    const today = new Date();
-    const minDate = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 1,
-      24,
-      0,
-      0
-    );
     return {
       loading: false,
-      minDate: minDate,
       hasLimit: false,
       session: {
         title: "",
         startHour: null,
         endHour: null,
         typeSession: null,
-        date: null,
         description: "",
-        limit: 0
+        limit: 0,
+        periods: [{ start: null, end: null }]
       },
       recurrence: {
-        days: -1
+        day: null
       },
       SESSION_RECURRENCE: SESSION_RECURRENCE
     };
@@ -164,26 +149,44 @@ export default {
         !!this.session.startHour &&
         !!this.session.endHour &&
         !!this.session.typeSession &&
-        !!this.session.date
+        this.recurrence.day !== null
       );
     }
   },
   methods: {
+    changeDays(day) {
+      if (this.recurrence.day === day) {
+        this.recurrence.day = null;
+      } else {
+        this.recurrence.day = day;
+      }
+    },
+    addPeriod() {
+      this.session.periods = [
+        ...this.session.periods,
+        { start: null, end: null }
+      ];
+    },
+    removePeriod(index) {
+      this.session.periods = this.session.periods.filter(
+        (_, indexP) => index !== indexP
+      );
+    },
     confirm() {
       if (this.loading) return;
       if (!this.canConfirm) return;
       this.loading = true;
       this.$store
-        .dispatch("organization/addSession", {
+        .dispatch("organization/addSessionMultiple", {
           title: this.session.title,
           description: this.session.description,
           typeSessionId: this.session.typeSession,
-          periodicity: SESSION_RECURRENCE.ONCE,
+          periodicity: SESSION_RECURRENCE.BY_WEEK,
           day: this.recurrence.day,
           limit: this.session.limit,
           startHour: this.session.startHour,
           endHour: this.session.endHour,
-          date: this.session.date
+          periods: this.session.periods
         })
         .then(() => {
           this.$buefy.toast.open({
@@ -222,4 +225,5 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+</style>

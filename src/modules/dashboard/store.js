@@ -34,7 +34,7 @@ export default {
       state.organization
         ? state.organization.state
         : STATE_ORGANIZATION.UNDEFINED,
-    isOrganizationArchive: (state, getters) =>
+    isOrganizationArchived: (state, getters) =>
       getters.stateOrganization === STATE_ORGANIZATION.ARCHIVE,
     isOrganizationActive: (state, getters) =>
       getters.stateOrganization === STATE_ORGANIZATION.ACTIVE,
@@ -87,8 +87,8 @@ export default {
         .get(
           `organization/${id}/session/`,
           {
-            minDate: dayjs(minDate).format("YYYY-MM-DDTHH:mm:ssZ"),
-            maxDate: dayjs(maxDate).format("YYYY-MM-DDTHH:mm:ssZ")
+            minDate: dayjs(minDate).format("YYYY-MM-DD"),
+            maxDate: dayjs(maxDate).format("YYYY-MM-DD")
           },
           { errorMessage: true }
         )
@@ -108,8 +108,8 @@ export default {
         .get(
           "user/session/",
           {
-            minDate: dayjs(minDate).format("YYYY-MM-DDTHH:mm:ssZ"),
-            maxDate: dayjs(maxDate).format("YYYY-MM-DDTHH:mm:ssZ")
+            minDate: dayjs(minDate).format("YYYY-MM-DD"),
+            maxDate: dayjs(maxDate).format("YYYY-MM-DD")
           },
           { errorMessage: true }
         )

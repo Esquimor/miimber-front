@@ -1,6 +1,6 @@
 <template>
   <TemplateSidePanelRight
-    :title="$t('organization.sessions.add.title')"
+    :title="$t('organization.templateSessions.add.title')"
     :loading="loading"
     :disabled="!canConfirm"
     hasPadding
@@ -8,14 +8,14 @@
   >
     <div class="columns">
       <div class="column">
-        <BField :label="$t('organization.sessions.label.title')">
+        <BField :label="$t('organization.templateSessions.label.title')">
           <BInput v-model.trim="session.title" required></BInput>
         </BField>
       </div>
     </div>
     <div class="columns">
       <div class="column">
-        <BField :label="$t('organization.sessions.label.startHour')">
+        <BField :label="$t('organization.templateSessions.label.startHour')">
           <BClockpicker
             v-model="session.startHour"
             icon="clock"
@@ -29,7 +29,7 @@
         </BField>
       </div>
       <div class="column">
-        <BField :label="$t('organization.sessions.label.endHour')">
+        <BField :label="$t('organization.templateSessions.label.endHour')">
           <BClockpicker
             v-model="session.endHour"
             icon="clock"
@@ -44,25 +44,16 @@
       </div>
     </div>
     <div class="columns">
-      <div class="column is-half">
-        <BField :label="$t('organization.sessions.label.sessionDate')">
-          <BDatepicker
-            v-model="session.date"
-            icon="calendar-today"
-            trap-focus
-            :minDate="minDate"
-            :firstDayOfWeek="1"
-            :monthNames="monthNames"
-            :dayNames="dayNames"
-            :nearbyMonthDays="false"
-          ></BDatepicker>
+      <div class="column">
+        <BField :label="$t('organization.templateSessions.label.day')">
+          <OrganizationSessionsDays @click="changeDays" :day="recurrence.day" />
         </BField>
       </div>
     </div>
     <div class="columns">
       <div class="column" :class="{ 'is-half': !hasLimit }">
         <BField
-          :label="$t('organization.sessions.label.hasLimit')"
+          :label="$t('organization.templateSessions.label.hasLimit')"
           style="height: 68px;"
         >
           <BSwitch v-model="hasLimit">{{
@@ -71,14 +62,14 @@
         </BField>
       </div>
       <div class="column" v-if="hasLimit">
-        <BField :label="$t('organization.sessions.label.limit')">
+        <BField :label="$t('organization.templateSessions.label.limit')">
           <BNumberinput v-model="session.limit" min="0"></BNumberinput>
         </BField>
       </div>
     </div>
     <div class="columns">
       <div class="column is-half">
-        <BField :label="$t('organization.sessions.label.typeSession')">
+        <BField :label="$t('organization.templateSessions.label.typeSession')">
           <BSelect v-model="session.typeSession" expanded>
             <option
               v-for="typeSession in typeSessions"
@@ -92,7 +83,7 @@
     </div>
     <div class="columns">
       <div class="column">
-        <BField :label="$t('organization.sessions.label.description')">
+        <BField :label="$t('organization.templateSessions.label.description')">
           <BInput
             v-model.trim="session.description"
             maxlength="500"
@@ -118,38 +109,29 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
 import TemplateSidePanelRight from "@core/template/TemplateSidePanelRight";
+import OrganizationSessionsDays from "@organization/components/sessions/OrganizationSessionsDays";
 
 export default {
-  name: "OrganizationSessionsAdd",
+  name: "OrganizationTemplateSessionsAdd",
   mixins: [calendar],
   components: {
-    TemplateSidePanelRight
+    TemplateSidePanelRight,
+    OrganizationSessionsDays
   },
   data() {
-    const today = new Date();
-    const minDate = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 1,
-      24,
-      0,
-      0
-    );
     return {
       loading: false,
-      minDate: minDate,
       hasLimit: false,
       session: {
         title: "",
         startHour: null,
         endHour: null,
         typeSession: null,
-        date: null,
         description: "",
         limit: 0
       },
       recurrence: {
-        days: -1
+        day: null
       },
       SESSION_RECURRENCE: SESSION_RECURRENCE
     };
@@ -164,30 +146,48 @@ export default {
         !!this.session.startHour &&
         !!this.session.endHour &&
         !!this.session.typeSession &&
-        !!this.session.date
+        this.recurrence.day !== null
       );
     }
   },
   methods: {
+    changeDays(day) {
+      if (this.recurrence.day === day) {
+        this.recurrence.day = null;
+      } else {
+        this.recurrence.day = day;
+      }
+    },
+    addPeriod() {
+      this.session.periods = [
+        ...this.session.periods,
+        { start: null, end: null }
+      ];
+    },
+    removePeriod(index) {
+      this.session.periods = this.session.periods.filter(
+        (_, indexP) => index !== indexP
+      );
+    },
     confirm() {
       if (this.loading) return;
       if (!this.canConfirm) return;
       this.loading = true;
       this.$store
-        .dispatch("organization/addSession", {
+        .dispatch("organization/addTemplate", {
           title: this.session.title,
           description: this.session.description,
           typeSessionId: this.session.typeSession,
-          periodicity: SESSION_RECURRENCE.ONCE,
+          periodicity: SESSION_RECURRENCE.BY_WEEK,
           day: this.recurrence.day,
           limit: this.session.limit,
           startHour: this.session.startHour,
           endHour: this.session.endHour,
-          date: this.session.date
+          periods: this.session.periods
         })
         .then(() => {
           this.$buefy.toast.open({
-            message: this.$t("organization.sessions.add.success"),
+            message: this.$t("organization.templateSessions.add.success"),
             type: "is-primary"
           });
           this.$store.dispatch("core/closeSideBar");

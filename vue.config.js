@@ -27,7 +27,8 @@ module.exports = {
         "@presentation": path.resolve(__dirname, "src/modules/presentation"),
         "@sign": path.resolve(__dirname, "src/modules/sign"),
         "@settings": path.resolve(__dirname, "src/modules/settings"),
-        "@organization": path.resolve(__dirname, "src/modules/organization")
+        "@organization": path.resolve(__dirname, "src/modules/organization"),
+        "@statistics": path.resolve(__dirname, "src/modules/statistics")
       }
     }
   }

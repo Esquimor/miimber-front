@@ -6,6 +6,7 @@ import core from "@core/store.js";
 import settings from "@settings/store.js";
 import organization from "@organization/store.js";
 import dashboard from "@dashboard/store.js";
+import statistics from "@statistics/store.js";
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     sign,
     settings,
     organization,
-    dashboard
+    dashboard,
+    statistics
   }
 });
