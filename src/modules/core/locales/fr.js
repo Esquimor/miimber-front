@@ -23,7 +23,10 @@ export default {
       no: "Non",
       logout: "Déconnecter",
       send: "Envoyer",
-      update: "Modifier"
+      update: "Modifier",
+      archive: "Archiver",
+      empty: "Aucun",
+      emptyF: "Aucune"
     },
     label: {
       email: {

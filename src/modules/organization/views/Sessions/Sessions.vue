@@ -1,9 +1,36 @@
 <template>
-  <OrganizationTemplateList
-    :title="$t('organization.sessions.title')"
-    @add="add"
-    :loading="loading"
-  >
+  <OrganizationTemplateList :title="$t('organization.sessions.title')" :loading="loading">
+    <template v-slot:buttons>
+      <div class="OrganizationSession-buttons">
+        <BButton
+          id="OrganizationTemplateList-add"
+          class="OrganizationSession-buttons-button"
+          type="is-primary"
+          icon-left="plus"
+          @click="addSimple"
+        >{{ $t("organization.sessions.button.simple") }}</BButton>
+
+        <b-dropdown aria-role="list">
+          <BButton
+            slot="trigger"
+            id="OrganizationTemplateList-add"
+            class="OrganizationSession-buttons-button"
+            type="is-primary"
+            icon-left="plus"
+            @click="addMultiple"
+          >{{ $t("organization.sessions.button.multiple") }}</BButton>
+
+          <b-dropdown-item
+            aria-role="listitem"
+            @click="addFromTemplate"
+          >{{ $t('organization.sessions.button.fromTemplate') }}</b-dropdown-item>
+          <b-dropdown-item
+            aria-role="listitem"
+            @click="addAll"
+          >{{ $t('organization.sessions.button.newAll') }}</b-dropdown-item>
+        </b-dropdown>
+      </div>
+    </template>
     <div class="OrganizationSession-search">
       <div class="columns">
         <div class="column">
@@ -13,44 +40,31 @@
         </div>
         <div class="column">
           <BField :label="$t('organization.sessions.label.between')">
-            <BDatepicker
-              v-model="dates"
-              range
-              @input="setSessions"
-              :nearbyMonthDays="false"
-            ></BDatepicker>
+            <BDatepicker v-model="dates" range @input="setSessions" :nearbyMonthDays="false"></BDatepicker>
           </BField>
         </div>
       </div>
     </div>
     <BTable :data="filteredSession" striped paginated :per-page="25">
       <template v-slot="{ row }">
-        <BTableColumn
-          field="title"
-          :label="$t('organization.sessions.table.title')"
-          >{{ row.title }}</BTableColumn
-        >
+        <BTableColumn field="title" :label="$t('organization.sessions.table.title')">{{ row.title }}</BTableColumn>
         <BTableColumn
           field="title"
           :label="$t('organization.sessions.table.date')"
-          >{{ row.start | formatDate }}</BTableColumn
-        >
+        >{{ row.start | formatDate }}</BTableColumn>
         <BTableColumn
           field="title"
           :label="$t('organization.sessions.table.start')"
-          >{{ row.start | formatHour }}</BTableColumn
-        >
+        >{{ row.start | formatHour }}</BTableColumn>
         <BTableColumn
           field="title"
           :label="$t('organization.sessions.table.end')"
-          >{{ row.end | formatHour }}</BTableColumn
-        >
+        >{{ row.end | formatHour }}</BTableColumn>
         <BTableColumn
           field="title"
           :label="$t('organization.sessions.table.typeSession')"
           sortable
-          >{{ row.typeSession.name }}</BTableColumn
-        >
+        >{{ row.typeSession.name }}</BTableColumn>
         <BTableColumn class="OrganizationMembers-column-manage" :width="200">
           <OrganizationSessionsDropdown
             :id="row.id"
@@ -73,6 +87,8 @@ import dayjs from "dayjs";
 import OrganizationTemplateList from "@organization/templates/OrganizationTemplateList";
 
 import OrganizationSessionsAdd from "@organization/components/sessions/OrganizationSessionsAdd";
+import OrganizationSessionsAddMultiple from "@organization/components/sessions/OrganizationSessionsAddMultiple";
+import OrganizationSessionsAddFromTemplate from "@organization/components/sessions/OrganizationSessionsAddFromTemplate";
 import OrganizationSessionsEdit from "@organization/components/sessions/OrganizationSessionsEdit";
 
 import OrganizationSessionsDropdown from "@organization/components/sessions/OrganizationSessionsDropdown";
@@ -92,7 +108,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      sessions: "organization/sessions"
+      sessions: "organization/sessions",
+      templateSessions: "organization/templateSessions"
     }),
     reorderByDate() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
@@ -111,9 +128,27 @@ export default {
     }
   },
   methods: {
-    add() {
+    addSimple() {
       this.$store.dispatch("core/openSideBar", {
         component: OrganizationSessionsAdd
+      });
+    },
+    addMultiple() {
+      if (this.templateSessions.length === 0) {
+        this.$store.dispatch("core/openSideBar", {
+          component: OrganizationSessionsAddMultiple
+        });
+        return;
+      }
+    },
+    addFromTemplate() {
+      this.$store.dispatch("core/openSideBar", {
+        component: OrganizationSessionsAddFromTemplate
+      });
+    },
+    addAll() {
+      this.$store.dispatch("core/openSideBar", {
+        component: OrganizationSessionsAddMultiple
       });
     },
     edit(session) {
@@ -165,14 +200,13 @@ export default {
         maxDate: this.dates[1]
       })
       .then(() => {
-        this.$store
-          .dispatch("organization/setTypeSessions")
-          .then(() => {
-            this.loading = false;
-          })
-          .catch(() => {
-            this.loading = false;
-          });
+        this.$store.dispatch("organization/setTypeSessions").then(() => {
+          this.$store
+            .dispatch("organization/setTemplateeSessionsGoing")
+            .then(() => {
+              this.loading = false;
+            });
+        });
       })
       .catch(() => {
         this.loading = false;
@@ -181,4 +215,21 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.OrganizationSession {
+  &-buttons {
+    display: flex;
+    align-items: center;
+
+    @media (max-width: $mobile) {
+      flex-direction: column;
+    }
+    &-button {
+      margin: 0rem 0rem 0rem 0.5rem;
+      @media (max-width: $mobile) {
+        margin: 0.5rem 0rem;
+      }
+    }
+  }
+}
+</style>

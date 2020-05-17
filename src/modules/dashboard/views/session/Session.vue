@@ -65,9 +65,9 @@
                 session.end | formatHour
               }}
             </span>
-            <span class="DashboardSession-bottom-info-title text is-size-5">
-              {{ session.title }}
-            </span>
+            <span class="DashboardSession-bottom-info-title text is-size-5">{{
+              session.title
+            }}</span>
           </div>
           <SessionButtonRegistered
             class="DashboardSession-bottom-button"

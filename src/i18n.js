@@ -10,6 +10,7 @@ import sign from "@sign/locales/index.js";
 import settings from "@settings/locales/index.js";
 import organization from "@organization/locales/index.js";
 import error from "@error/locales/index.js";
+import statistics from "@statistics/locales/index.js";
 
 const fr = Object.assign(
   {},
@@ -19,7 +20,8 @@ const fr = Object.assign(
   sign.fr,
   settings.fr,
   organization.fr,
-  error.fr
+  error.fr,
+  statistics.fr
 );
 const en = Object.assign(
   {},
@@ -29,7 +31,8 @@ const en = Object.assign(
   sign.en,
   settings.en,
   organization.en,
-  error.en
+  error.en,
+  statistics.en
 );
 
 const messages = {

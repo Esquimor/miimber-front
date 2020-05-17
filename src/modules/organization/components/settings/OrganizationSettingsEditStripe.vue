@@ -12,10 +12,7 @@
           :message="cardNumberElement.message"
           :type="cardNumberElement.type"
         >
-          <div
-            id="card-number-element"
-            class="OrganizationCreate-stripe-input"
-          ></div>
+          <div id="card-number-element" class="OrganizationCreate-stripe-input"></div>
         </b-field>
       </div>
     </div>
@@ -26,10 +23,7 @@
           :message="cardExpiryElement.message"
           :type="cardExpiryElement.type"
         >
-          <div
-            id="card-expiry-element"
-            class="OrganizationCreate-stripe-input"
-          ></div>
+          <div id="card-expiry-element" class="OrganizationCreate-stripe-input"></div>
         </b-field>
       </div>
       <div class="column OrganizationCreate-column">
@@ -38,10 +32,7 @@
           :message="cardCvcElement.message"
           :type="cardCvcElement.type"
         >
-          <div
-            id="card-cvc-element"
-            class="OrganizationCreate-stripe-input"
-          ></div>
+          <div id="card-cvc-element" class="OrganizationCreate-stripe-input"></div>
         </b-field>
       </div>
     </div>
@@ -144,7 +135,7 @@ export default {
     }
   },
   mounted: function() {
-    loadStripe(`pk_test_NOsGYAIvHj3VuuEhbzvetWgW00BUPzCdgM`).then(stripe => {
+    loadStripe(process.env.VUE_APP_STRIPE).then(stripe => {
       this.stripe = stripe;
       let elements = stripe.elements();
 

@@ -22,7 +22,8 @@ export default {
       yes: "Yes",
       no: "No",
       send: "Send",
-      update: "Update"
+      update: "Update",
+      archive: "Archive"
     },
     label: {
       email: {

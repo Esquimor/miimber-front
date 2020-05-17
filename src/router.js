@@ -11,6 +11,7 @@ import routerPresentation from "@presentation/router.js";
 import routerSign from "@sign/router.js";
 import routerSettings from "@settings/router.js";
 import routerOrganization from "@organization/router.js";
+import routerStatistics from "@statistics/router.js";
 
 const routes = [];
 
@@ -24,6 +25,7 @@ const router = new VueRouter({
     routerSign,
     routerSettings,
     routerOrganization,
+    routerStatistics,
     routerError
   )
 });
@@ -34,7 +36,8 @@ router.beforeEach((to, from, next) => {
     to.path.search("/dashboard") !== -1 ||
     to.path.search("/organization") !== -1 ||
     to.path.search("/session") !== -1 ||
-    to.path.search("/organization-manage") !== -1
+    to.path.search("/organization-manage") !== -1 ||
+    to.path.search("/statistics") !== -1
   ) {
     if (store.state.core.me) {
       next();

@@ -21,6 +21,10 @@ export default {
     login: {
       label: "Déjà un compte. ",
       link: "Se connecter."
+    },
+    terms: {
+      label: "J'accepte les ",
+      link: "conditions d'utilisations"
     }
   },
   sign: {

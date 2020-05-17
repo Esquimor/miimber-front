@@ -67,6 +67,14 @@
             required
           ></BInput>
         </BField>
+        <div class="field">
+          <b-checkbox v-model="terms">
+            {{ $t("register.terms.label") }}
+            <router-link :to="{ name: 'terms' }">{{
+              $t("register.terms.link")
+            }}</router-link>
+          </b-checkbox>
+        </div>
         <div class="Register-form-submit">
           <button
             id="SignRegister-submit"
@@ -83,9 +91,9 @@
       <div class="Register-bottom">
         <span>
           {{ $t("register.login.label") }}
-          <router-link :to="{ name: 'login' }">
-            {{ $t("register.login.link") }}
-          </router-link>
+          <router-link :to="{ name: 'login' }">{{
+            $t("register.login.link")
+          }}</router-link>
         </span>
       </div>
     </template>
@@ -104,6 +112,7 @@ export default {
   },
   data() {
     return {
+      terms: false,
       email: "",
       firstName: "",
       lastName: "",
@@ -121,7 +130,9 @@ export default {
         this.firstName !== "" &&
         this.lastName !== "" &&
         this.password !== "" &&
-        !this.errorSamePassword
+        this.confirm !== "" &&
+        !this.errorSamePassword &&
+        this.terms
       );
     }
   },
@@ -147,6 +158,7 @@ export default {
           this.loading = false;
         })
         .catch(() => {
+          this.terms = false;
           this.password = "";
           this.confirm = "";
           this.error = true;

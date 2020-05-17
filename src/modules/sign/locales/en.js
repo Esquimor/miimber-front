@@ -21,6 +21,10 @@ export default {
     login: {
       label: "Already an account. ",
       link: "Sign in."
+    },
+    terms: {
+      label: "I accept the ",
+      link: "terms of use"
     }
   },
   sign: {

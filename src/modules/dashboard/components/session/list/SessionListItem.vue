@@ -4,9 +4,9 @@
     class="DashboardSessionListItem"
   >
     <div class="DashboardSessionListItem-time">
-      <BTag :type="statusSession.type">
-        {{ $t(`core.sessionType.${statusSession.label}`) }}
-      </BTag>
+      <BTag :type="statusSession.type">{{
+        $t(`core.sessionType.${statusSession.label}`)
+      }}</BTag>
       <div class="DashboardSessionListItem-time-start">
         {{ session.start | formatHour }}
       </div>

@@ -1,11 +1,16 @@
 <template>
   <TemplateOrganization :loading="loading">
     <div class="DashboardOrganizationForum">
-      <OrganizationForumCategory
-        v-for="category in categories"
-        :key="category.id"
-        :category="category"
-      />
+      <template v-if="categories.length > 0">
+        <OrganizationForumCategory
+          v-for="category in categories"
+          :key="category.id"
+          :category="category"
+        />
+      </template>
+      <div v-else class="DashboardOrganizationForum-empty">
+        <span>{{ $t('dashboard.organization.label.forumEmpty') }}</span>
+      </div>
     </div>
   </TemplateOrganization>
 </template>
@@ -67,4 +72,12 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.DashboardOrganizationForum {
+  &-empty {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+}
+</style>

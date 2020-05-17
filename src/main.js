@@ -37,6 +37,11 @@ Vue.filter("formatHour", function(value) {
   return dayjs(date).format("HH:mm");
 });
 
+Vue.filter("formatTime", function(value) {
+  if (!value) return "";
+  return `${value.slice(0, 2)}:${value.slice(3, 5)}`;
+});
+
 Vue.filter("formatDate", function(value) {
   if (!value) return "";
   const date = new Date(value);
