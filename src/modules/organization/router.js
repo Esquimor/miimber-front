@@ -24,6 +24,11 @@ export default [
         component: () => import("@organization/views/Sessions/TypeSessions")
       },
       {
+        path: "sessions/templates",
+        name: "organization-manage-sessions-templates",
+        component: () => import("@organization/views/Sessions/TemplateSessions")
+      },
+      {
         path: "forum",
         name: "organization-manage-forum",
         component: () => import("@organization/views/Forum")

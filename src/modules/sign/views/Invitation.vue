@@ -23,7 +23,10 @@
           required
         />
       </BField>
-      <BField :label="$t('core.label.password.label')" :type="errorSamePassword ? 'is-danger' : ''">
+      <BField
+        :label="$t('core.label.password.label')"
+        :type="errorSamePassword ? 'is-danger' : ''"
+      >
         <BInput
           id="SignInvitation-password"
           v-model="password"
@@ -48,8 +51,10 @@
         ></BInput>
         <div class="field">
           <b-checkbox v-model="terms">
-            {{ $t('register.terms.label')}}
-            <router-link :to="{name: 'terms'}">{{ $t('register.terms.link') }}</router-link>
+            {{ $t("register.terms.label") }}
+            <router-link :to="{ name: 'terms' }">{{
+              $t("register.terms.link")
+            }}</router-link>
           </b-checkbox>
         </div>
       </BField>

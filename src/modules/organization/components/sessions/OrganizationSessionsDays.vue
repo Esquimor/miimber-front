@@ -1,13 +1,13 @@
 <template>
   <div class="OrganizationSessionsDay">
     <div
-      v-for="day in DAYS"
-      :key="day.item"
+      v-for="dayItem in DAYS"
+      :key="dayItem.value"
       class="OrganizationSessionsDay-item"
-      :class="{ 'is-selected': days.some(d => d === day.value) }"
-      @click="$emit('click', day.value)"
+      :class="{ 'is-selected': day === dayItem.value }"
+      @click="$emit('click', dayItem.value)"
     >
-      {{ $t(`core.daysShort.${day.label}`) }}
+      {{ $t(`core.daysShort.${dayItem.label}`) }}
     </div>
   </div>
 </template>
@@ -20,9 +20,9 @@ import { DAYS } from "@/utils/consts";
 export default {
   name: "OrganizationSessionsDay",
   props: {
-    days: {
-      type: Array,
-      default: () => []
+    day: {
+      type: Number,
+      default: null
     }
   },
   data() {

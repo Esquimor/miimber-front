@@ -37,6 +37,13 @@
       >
         <span>{{ $t("organization.typeSessions.title") }}</span>
       </router-link>
+      <router-link
+        :to="{ name: NAV.SESSIONS_TEMPLATES }"
+        class="OrganizationOrganizationMenu-sublink-item"
+        @click.native="setRouterAndNav(ROUTER.SESSIONS, NAV.SESSIONS_TEMPLATES)"
+      >
+        <span>Templates</span>
+      </router-link>
     </div>
     <router-link
       v-if="isPayed"
@@ -70,22 +77,22 @@
       expanded
       v-model="nav"
     >
-      <option v-if="isPayed" :value="NAV.MEMBERS">{{
-        $t("organization.members.title")
-      }}</option>
-      <option v-if="isPayed" :value="NAV.SESSIONS">{{
-        $t("organization.sessions.title")
-      }}</option>
+      <option v-if="isPayed" :value="NAV.MEMBERS">
+        {{ $t("organization.members.title") }}
+      </option>
+      <option v-if="isPayed" :value="NAV.SESSIONS">
+        {{ $t("organization.sessions.title") }}
+      </option>
       <option v-if="isPayed" :value="NAV.SESSIONS_TYPES">
         {{ $t("organization.sessions.title") }} -
         {{ $t("organization.typeSessions.title") }}
       </option>
-      <option v-if="isPayed" :value="NAV.FORUM">{{
-        $t("organization.forum.title")
-      }}</option>
-      <option :value="NAV.SETTINGS">{{
-        $t("organization.settings.title")
-      }}</option>
+      <option v-if="isPayed" :value="NAV.FORUM">
+        {{ $t("organization.forum.title") }}
+      </option>
+      <option :value="NAV.SETTINGS">
+        {{ $t("organization.settings.title") }}
+      </option>
     </BSelect>
   </div>
 </template>
@@ -105,6 +112,7 @@ const NAV = {
   MEMBERS: "organization-manage-members",
   SESSIONS: "organization-manage-sessions",
   SESSIONS_TYPES: "organization-manage-sessions-types",
+  SESSIONS_TEMPLATES: "organization-manage-sessions-templates",
   SETTINGS: "organization-manage-settings",
   FORUM: "organization-manage-forum"
 };
@@ -138,11 +146,12 @@ export default {
   mounted() {
     this.nav = this.$route.name;
     switch (this.$route.name) {
-      case "organization-manage-members":
+      case NAV.MEMBERS:
         this.router = ROUTER.MEMBERS;
         break;
       case NAV.SESSIONS:
-      case "organization-manage-sessions-types":
+      case NAV.SESSIONS_TYPES:
+      case NAV.SESSIONS_TEMPLATES:
         this.router = ROUTER.SESSIONS;
         break;
 

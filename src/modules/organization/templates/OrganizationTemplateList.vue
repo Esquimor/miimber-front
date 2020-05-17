@@ -2,13 +2,15 @@
   <div class="OrganizationTemplateList">
     <header class="OrganizationTemplateList-header">
       <h2 class="title is-4">{{ title }}</h2>
-      <BButton
-        id="OrganizationTemplateList-add"
-        type="is-primary"
-        icon-left="plus"
-        @click="$emit('add')"
-        >{{ $t(addLabel) }}</BButton
-      >
+      <slot name="buttons">
+        <BButton
+          id="OrganizationTemplateList-add"
+          type="is-primary"
+          icon-left="plus"
+          @click="$emit('add')"
+          >{{ $t(addLabel) }}</BButton
+        >
+      </slot>
     </header>
     <main class="OrganizationTemplateList-main" ref="template">
       <slot />
