@@ -9,7 +9,7 @@
         />
       </template>
       <div v-else class="DashboardOrganizationForum-empty">
-        <span>{{ $t('dashboard.organization.label.forumEmpty') }}</span>
+        <span>{{ $t("dashboard.organization.label.forumEmpty") }}</span>
       </div>
     </div>
   </TemplateOrganization>

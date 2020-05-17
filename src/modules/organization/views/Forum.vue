@@ -6,7 +6,11 @@
     addLabel="organization.forum.label.add"
   >
     <div class="OrganizationForum">
-      <draggable v-if="myList.length !== 0" class="OrganizationForum-categories" v-model="myList">
+      <draggable
+        v-if="myList.length !== 0"
+        class="OrganizationForum-categories"
+        v-model="myList"
+      >
         <OrganizationForumCategory
           v-for="category in myList"
           :key="category.id"
@@ -15,7 +19,7 @@
         />
       </draggable>
       <div v-else class="OrganizationForum-empty">
-        <span>{{ $t('organization.forum.empty') }}</span>
+        <span>{{ $t("organization.forum.empty") }}</span>
       </div>
     </div>
   </OrganizationTemplateList>

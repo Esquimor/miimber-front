@@ -14,7 +14,12 @@
               v-for="templateSession in templateSessions"
               :value="templateSession.id"
               :key="templateSession.id"
-            >{{ templateSession.title }} - {{ $t(`core.daysNumber[${templateSession.day}]`) }} {{ templateSession.startHour | formatTime }}-{{ templateSession.endHour | formatTime }}</option>
+              >{{ templateSession.title }} -
+              {{ $t(`core.daysNumber[${templateSession.day}]`) }}
+              {{ templateSession.startHour | formatTime }}-{{
+                templateSession.endHour | formatTime
+              }}</option
+            >
           </b-select>
         </b-field>
       </div>
@@ -87,5 +92,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

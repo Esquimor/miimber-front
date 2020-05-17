@@ -10,8 +10,14 @@
             type="is-primary"
             @click.native="passToEdit"
             outlined
-          >Modifier</BButton>
-          <BButton @click.native="remove" icon-left="delete" type="is-danger" outlined />
+            >Modifier</BButton
+          >
+          <BButton
+            @click.native="remove"
+            icon-left="delete"
+            type="is-danger"
+            outlined
+          />
         </div>
       </template>
       <template v-else>
@@ -23,8 +29,14 @@
             type="is-primary"
             :loading="loading"
             @click.native="save"
-          >Enregistrer</BButton>
-          <BButton @click.native="passToView" icon-left="close" type="is-danger" outlined />
+            >Enregistrer</BButton
+          >
+          <BButton
+            @click.native="passToView"
+            icon-left="close"
+            type="is-danger"
+            outlined
+          />
         </div>
       </template>
     </div>
@@ -38,9 +50,7 @@
     </draggable>
     <div class="OrganizationForumCategory-addSubject">
       <BButton icon-left="plus" type="is-primary" @click.native="add">
-        {{
-        $t("organization.subjectforum.label.add")
-        }}
+        {{ $t("organization.subjectforum.label.add") }}
       </BButton>
     </div>
   </div>

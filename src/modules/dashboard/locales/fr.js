@@ -2,15 +2,15 @@ export default {
   dashboard: {
     menu: {
       menu: "Menu",
-      account: "Mon compte",
+      account: "Mon compte"
     },
     panel: {
       sessions: "Séances",
-      organizations: "Organisations",
+      organizations: "Organisations"
     },
     organization: {
       table: {
-        name: "Nom",
+        name: "Nom"
       },
       label: {
         list: "Mes organisations",
@@ -18,28 +18,28 @@ export default {
         members: "Membres",
         forum: "Forum",
         empty: "Vous ne participez à aucune organisation",
-        forumEmpty: "Le forum est vide",
+        forumEmpty: "Le forum est vide"
       },
       subjectForum: {
         empty: "Aucune discussion trouvée. Créer s'en une.",
         add: {
           title: "Ajouter une discussion",
-          success: "Discussion ajouté",
+          success: "Discussion ajouté"
         },
         label: {
           title: "Title",
           message: "Message",
-          placeholder: "Mon message",
-        },
+          placeholder: "Mon message"
+        }
       },
       archive: {
         tag: "Archivé",
-        title: "Cette organisation n'est plus disponible.",
+        title: "Cette organisation n'est plus disponible."
       },
       suspended: {
         tag: "Suspendu",
-        title: "Cette organisation est momentanément indisponible.",
-      },
+        title: "Cette organisation est momentanément indisponible."
+      }
     },
     session: {
       label: {
@@ -60,31 +60,31 @@ export default {
         registeredEmpty: "Aucun inscrit",
         search: "Rechercher",
         emptyUsers: "Vide",
-        empty: "Aucune session trouvée",
+        empty: "Aucune session trouvée"
       },
       emerge: {
         table: {
           name: "Nom",
-          present: "Présent",
-        },
+          present: "Présent"
+        }
       },
       comment: {
         title: "Commentaires",
         add: "Ajouter un commentaire",
-        success: "Commentaire ajouté",
+        success: "Commentaire ajouté"
       },
       registered: {
         empty: "Aucune personne n'est inscrite pour cette session.",
         table: {
-          name: "Nom",
+          name: "Nom"
         },
-        success: "Inscrit",
+        success: "Inscrit"
       },
       unsubscribe: {
         title: "Se désinscrire",
         message: "Êtes vous sur de vous désinscrire ?",
-        success: "Désincrit",
-      },
-    },
-  },
+        success: "Désincrit"
+      }
+    }
+  }
 };

@@ -52,11 +52,12 @@
     </div>
     <div class="columns">
       <div class="column" :class="{ 'is-half': !hasLimit }">
-        <BField :label="$t('organization.templateSessions.label.hasLimit')" style="height: 68px;">
+        <BField
+          :label="$t('organization.templateSessions.label.hasLimit')"
+          style="height: 68px;"
+        >
           <BSwitch v-model="hasLimit">
-            {{
-            hasLimit ? $t("core.utils.yes") : $t("core.utils.no")
-            }}
+            {{ hasLimit ? $t("core.utils.yes") : $t("core.utils.no") }}
           </BSwitch>
         </BField>
       </div>
@@ -74,7 +75,8 @@
               v-for="typeSession in typeSessions"
               :value="typeSession.id"
               :key="typeSession.id"
-            >{{ typeSession.name }}</option>
+              >{{ typeSession.name }}</option
+            >
           </BSelect>
         </BField>
       </div>
@@ -82,7 +84,11 @@
     <div class="columns">
       <div class="column">
         <BField :label="$t('organization.templateSessions.label.description')">
-          <BInput v-model.trim="session.description" maxlength="2000" type="textarea"></BInput>
+          <BInput
+            v-model.trim="session.description"
+            maxlength="2000"
+            type="textarea"
+          ></BInput>
         </BField>
       </div>
     </div>
