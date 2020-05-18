@@ -17,6 +17,12 @@ export default {
   components: {
     EditorContent
   },
+  props: {
+    description: {
+      type: String,
+      default: ""
+    }
+  },
   data() {
     return {
       hasFocus: false,
@@ -36,7 +42,7 @@ export default {
   },
   mounted() {
     this.editor = new Editor({
-      content: "",
+      content: this.description,
       onFocus: () => {
         this.hasFocus = true;
       },
