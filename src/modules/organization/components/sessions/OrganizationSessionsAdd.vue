@@ -65,9 +65,9 @@
           :label="$t('organization.sessions.label.hasLimit')"
           style="height: 68px;"
         >
-          <BSwitch v-model="hasLimit">{{
-            hasLimit ? $t("core.utils.yes") : $t("core.utils.no")
-          }}</BSwitch>
+          <BSwitch v-model="hasLimit">
+            {{ hasLimit ? $t("core.utils.yes") : $t("core.utils.no") }}
+          </BSwitch>
         </BField>
       </div>
       <div class="column" v-if="hasLimit">
@@ -93,11 +93,7 @@
     <div class="columns">
       <div class="column">
         <BField :label="$t('organization.sessions.label.description')">
-          <BInput
-            v-model.trim="session.description"
-            maxlength="500"
-            type="textarea"
-          ></BInput>
+          <InputTipTap ref="description" />
         </BField>
       </div>
     </div>
@@ -119,11 +115,14 @@ dayjs.extend(customParseFormat);
 
 import TemplateSidePanelRight from "@core/template/TemplateSidePanelRight";
 
+import InputTipTap from "@organization/components/mixin/InputTipTap";
+
 export default {
   name: "OrganizationSessionsAdd",
   mixins: [calendar],
   components: {
-    TemplateSidePanelRight
+    TemplateSidePanelRight,
+    InputTipTap
   },
   data() {
     const today = new Date();
@@ -145,7 +144,6 @@ export default {
         endHour: null,
         typeSession: null,
         date: null,
-        description: "",
         limit: 0
       },
       recurrence: {
@@ -176,7 +174,7 @@ export default {
       this.$store
         .dispatch("organization/addSession", {
           title: this.session.title,
-          description: this.session.description,
+          description: this.$refs.description.getContent(),
           typeSessionId: this.session.typeSession,
           periodicity: SESSION_RECURRENCE.ONCE,
           day: this.recurrence.day,

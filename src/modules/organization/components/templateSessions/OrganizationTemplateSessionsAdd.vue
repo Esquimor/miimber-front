@@ -56,9 +56,9 @@
           :label="$t('organization.templateSessions.label.hasLimit')"
           style="height: 68px;"
         >
-          <BSwitch v-model="hasLimit">
-            {{ hasLimit ? $t("core.utils.yes") : $t("core.utils.no") }}
-          </BSwitch>
+          <BSwitch v-model="hasLimit">{{
+            hasLimit ? $t("core.utils.yes") : $t("core.utils.no")
+          }}</BSwitch>
         </BField>
       </div>
       <div class="column" v-if="hasLimit">
@@ -84,11 +84,7 @@
     <div class="columns">
       <div class="column">
         <BField :label="$t('organization.templateSessions.label.description')">
-          <BInput
-            v-model.trim="session.description"
-            maxlength="2000"
-            type="textarea"
-          ></BInput>
+          <InputTipTap ref="description" />
         </BField>
       </div>
     </div>
@@ -111,12 +107,15 @@ dayjs.extend(customParseFormat);
 import TemplateSidePanelRight from "@core/template/TemplateSidePanelRight";
 import OrganizationSessionsDays from "@organization/components/sessions/OrganizationSessionsDays";
 
+import InputTipTap from "@organization/components/mixin/InputTipTap";
+
 export default {
   name: "OrganizationTemplateSessionsAdd",
   mixins: [calendar],
   components: {
     TemplateSidePanelRight,
-    OrganizationSessionsDays
+    OrganizationSessionsDays,
+    InputTipTap
   },
   data() {
     return {
@@ -127,7 +126,6 @@ export default {
         startHour: null,
         endHour: null,
         typeSession: null,
-        description: "",
         limit: 0
       },
       recurrence: {
@@ -176,7 +174,7 @@ export default {
       this.$store
         .dispatch("organization/addTemplate", {
           title: this.session.title,
-          description: this.session.description,
+          description: this.$refs.description.getContent(),
           typeSessionId: this.session.typeSession,
           periodicity: SESSION_RECURRENCE.BY_WEEK,
           day: this.recurrence.day,

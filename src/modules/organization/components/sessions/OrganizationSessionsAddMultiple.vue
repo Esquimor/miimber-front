@@ -61,9 +61,9 @@
           :label="$t('organization.sessions.label.hasLimit')"
           style="height: 68px;"
         >
-          <BSwitch v-model="hasLimit">
-            {{ hasLimit ? $t("core.utils.yes") : $t("core.utils.no") }}
-          </BSwitch>
+          <BSwitch v-model="hasLimit">{{
+            hasLimit ? $t("core.utils.yes") : $t("core.utils.no")
+          }}</BSwitch>
         </BField>
       </div>
       <div class="column" v-if="hasLimit">
@@ -89,11 +89,7 @@
     <div class="columns">
       <div class="column">
         <BField :label="$t('organization.sessions.label.description')">
-          <BInput
-            v-model.trim="session.description"
-            maxlength="2000"
-            type="textarea"
-          ></BInput>
+          <InputTipTap ref="description" />
         </BField>
       </div>
     </div>
@@ -118,13 +114,16 @@ import TemplateSidePanelRight from "@core/template/TemplateSidePanelRight";
 import OrganizationSessionsDays from "@organization/components/sessions/OrganizationSessionsDays";
 import OrganizationSessionsPeriods from "@organization/components/sessions/OrganizationSessionsPeriods";
 
+import InputTipTap from "@organization/components/mixin/InputTipTap";
+
 export default {
   name: "OrganizationSessionsAddMultiple",
   mixins: [calendar],
   components: {
     TemplateSidePanelRight,
     OrganizationSessionsDays,
-    OrganizationSessionsPeriods
+    OrganizationSessionsPeriods,
+    InputTipTap
   },
   data() {
     return {
@@ -135,7 +134,6 @@ export default {
         startHour: null,
         endHour: null,
         typeSession: null,
-        description: "",
         limit: 0,
         periods: [{ start: null, end: null }]
       },
@@ -185,7 +183,7 @@ export default {
       this.$store
         .dispatch("organization/addSessionMultiple", {
           title: this.session.title,
-          description: this.session.description,
+          description: this.$refs.description.getContent(),
           typeSessionId: this.session.typeSession,
           periodicity: SESSION_RECURRENCE.BY_WEEK,
           day: this.recurrence.day,

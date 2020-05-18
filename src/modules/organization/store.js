@@ -260,7 +260,7 @@ export default {
           { errorMessage: true }
         )
         .then(({ data }) => {
-          commit(types.ORG_ADD_SESSIONS, data);
+          commit(types.ORG_ADD_SESSIONS, data.sessions);
         })
         .catch(e => {
           return Promise.reject(e);

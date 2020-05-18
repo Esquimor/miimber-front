@@ -3,7 +3,7 @@
     <h2 class="DashboardSessionContentDescription-title title is-5">
       {{ $t("dashboard.session.label.descriptionTitle") }}
     </h2>
-    <p class="DashboardSessionContentDescription-text">{{ description }}</p>
+    <p class="DashboardSessionContentDescription-text" v-html="description" />
   </section>
 </template>
 
