@@ -21,4 +21,12 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.DashboardSessionContentDescription {
+  &-text {
+    p {
+      min-height: 24px;
+    }
+  }
+}
+</style>

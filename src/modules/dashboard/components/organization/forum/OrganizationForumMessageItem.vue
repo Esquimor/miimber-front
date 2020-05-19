@@ -52,6 +52,9 @@ export default {
   }
   &-message {
     padding: 0.5rem;
+    p {
+      min-height: 24px;
+    }
   }
 }
 </style>

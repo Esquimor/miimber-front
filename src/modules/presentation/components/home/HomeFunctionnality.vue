@@ -1,72 +1,66 @@
 <template>
   <section class="PresentationHomeFunctionnality">
-    <div class="PresentationHomeFunctionnality-wrapper">
-      <h2 class="title is-3">
-        {{ $t("presentation.home.functionnality.title") }} :
-      </h2>
-      <div class="columns">
-        <HomeFunctionnalityItem
-          :title="$t('presentation.home.functionnality.createSession.title')"
-          :message="
-            $t('presentation.home.functionnality.createSession.description')
-          "
-          class="column"
-        />
-        <HomeFunctionnalityItem
-          :title="$t('presentation.home.functionnality.waitingList.title')"
-          :message="
-            $t('presentation.home.functionnality.waitingList.description')
-          "
-          class="column"
-        />
+    <article class="PresentationHomeFunctionnality-session">
+      <div class="PresentationHomeFunctionnality-info">
+        <h3 class="title is-4">{{ $t('presentation.home.functionnality.session.title') }}</h3>
+        <p>{{ $t('presentation.home.functionnality.session.message') }}</p>
       </div>
-      <h2 class="PresentationHomeFunctionnality-next title is-3">
-        {{ $t("presentation.home.functionnality.next") }} :
-      </h2>
-      <div class="columns">
-        <HomeFunctionnalityItem
-          :title="$t('presentation.home.functionnality.commentary.title')"
-          :message="
-            $t('presentation.home.functionnality.commentary.description')
-          "
-          class="column"
-        />
-        <HomeFunctionnalityItem
-          :title="$t('presentation.home.functionnality.privateSession.title')"
-          :message="
-            $t('presentation.home.functionnality.privateSession.description')
-          "
-          class="column"
-        />
+      <img src="~@/assets/calendar.png" />
+    </article>
+    <article class="PresentationHomeFunctionnality-forum">
+      <div class="PresentationHomeFunctionnality-info">
+        <h3 class="title is-5">{{ $t('presentation.home.functionnality.forum.title') }}</h3>
+        <p>{{ $t('presentation.home.functionnality.forum.message') }}</p>
       </div>
-    </div>
+      <img src="~@/assets/forum.png" />
+    </article>
+    <article class="PresentationHomeFunctionnality-stat">
+      <div class="PresentationHomeFunctionnality-info">
+        <h3 class="title is-5">{{ $t('presentation.home.functionnality.stats.title') }}</h3>
+        <p>{{ $t('presentation.home.functionnality.stats.message') }}</p>
+      </div>
+      <img src="~@/assets/stats.png" />
+    </article>
   </section>
 </template>
 
 <script>
 "use strict";
 
-import HomeFunctionnalityItem from "@presentation/components/home/HomeFunctionnalityItem";
-
 export default {
-  name: "PresentationHomeFunctionnality",
-  components: {
-    HomeFunctionnalityItem
-  }
+  name: "PresentationHomeFunctionnality"
 };
 </script>
 
 <style lang="scss">
 .PresentationHomeFunctionnality {
   background-color: $white-bis;
-  &-wrapper {
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  > article {
     max-width: 960px;
-    margin: 0 auto !important;
-    padding: 4rem 0.75rem;
+    width: 100%;
+    margin: 1rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    @media (max-width: 650px) {
+      flex-direction: column;
+    }
+    > img {
+      max-width: 300px;
+    }
   }
-  &-next {
-    margin-top: 2rem;
+  &-forum {
+    flex-direction: row-reverse;
+  }
+  &-info {
+    width: 30%;
+    @media (max-width: 650px) {
+      flex-direction: column-reverse;
+      margin: 1rem 0;
+      width: 80%;
+    }
   }
 }
 </style>

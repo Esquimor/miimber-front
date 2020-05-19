@@ -2,9 +2,7 @@
   <div class="DashboardSessionCommentItem">
     <div
       class="DashboardSessionCommentItem-head text is-size-7 has-text-weight-medium"
-    >
-      {{ comment.user.firstName }} {{ comment.user.lastName }}
-    </div>
+    >{{ comment.user.firstName }} {{ comment.user.lastName }}</div>
     <div class="DashboardSessionCommentItem-content" v-html="comment.comment" />
   </div>
 </template>
@@ -27,5 +25,8 @@ export default {
 .DashboardSessionCommentItem {
   padding: 1rem 0.5rem;
   border-radius: 5px;
+  &-content {
+    min-height: 24px;
+  }
 }
 </style>

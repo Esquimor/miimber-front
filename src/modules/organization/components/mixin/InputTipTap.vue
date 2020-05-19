@@ -12,6 +12,8 @@
 
 import { Editor, EditorContent } from "tiptap";
 
+import { HardBreak } from "tiptap-extensions";
+
 export default {
   name: "OrganizationInputTipTap",
   components: {
@@ -51,7 +53,7 @@ export default {
           this.hasFocus = false;
         }
       },
-      extensions: []
+      extensions: [new HardBreak()]
     });
   },
   beforeDestroy() {
