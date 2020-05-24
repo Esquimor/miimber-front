@@ -5,7 +5,7 @@ export default {
       INSTRUCTOR: "Instructor",
       MEMBER: "Member",
       OFFICE: "Member of the Office",
-      OFFICE_INSTRUCTOR: "Member of the Office and Instructor"
+      OFFICE_INSTRUCTOR: "Member of the Office and Instructor",
     },
     utils: {
       delete: "Delete",
@@ -23,34 +23,34 @@ export default {
       no: "No",
       send: "Send",
       update: "Update",
-      archive: "Archive"
+      archive: "Archive",
     },
     label: {
       email: {
         label: "Email",
         required: "Email is required.",
         valid: "Email must be valid",
-        placeholder: "ex: email@example.com"
+        placeholder: "ex: email@example.com",
       },
       firstName: {
         label: "First Name",
         required: "First Name is required",
         valid: "First Name must be valid",
-        placeholder: "John"
+        placeholder: "John",
       },
       lastName: {
         label: "Last Name",
         required: "Last Name is required",
         valid: "Last Name must be valid",
-        placeholder: "Doe"
+        placeholder: "Doe",
       },
       password: {
         label: "Password",
         required: "Password is required",
         placeholder: "ex: Sup3r_S3cre7!",
         confirm: "Confirm",
-        notSame: "Password doesn't match"
-      }
+        notSame: "Password doesn't match",
+      },
     },
     menu: {
       home: "Home",
@@ -60,29 +60,29 @@ export default {
       register: "Create an account",
       profile: "Profile",
       login: "Login",
-      logout: "Logout"
+      logout: "Logout",
     },
     footer: {
       terms: "Terms",
-      lang: "Language"
+      lang: "Language",
     },
     error: {
       title: "Error",
       titleStatus: "Error: {status}",
-      message: "Oops, an error has occurred."
+      message: "Oops, an error has occurred.",
     },
     verification: {
-      label: "Verification in progress"
+      label: "Verification in progress",
     },
     logout: {
-      success: "Logout"
+      success: "Logout",
     },
     recurrence: {
       ONCE: "Once",
       EVERYDAY: "Everyday",
       BY_WEEK: "By week",
       //ON_DATE_EACH_MONTH: "Once a month",
-      CUSTOM: "Custom"
+      CUSTOM: "Custom",
     },
     days: {
       MONDAY: "Monday",
@@ -91,7 +91,7 @@ export default {
       THURSDAY: "Thursday",
       FRIDAY: "Friday",
       SATURDAY: "Saturday",
-      SUNDAY: "Sunday"
+      SUNDAY: "Sunday",
     },
     daysNumber: {
       1: "Monday",
@@ -100,7 +100,16 @@ export default {
       4: "Thursday",
       5: "Friday",
       6: "Saturday",
-      0: "Sunday"
+      0: "Sunday",
+    },
+    daysNumberShort: {
+      1: "Mon",
+      2: "Tue",
+      3: "Wed",
+      4: "Thu",
+      5: "Fri",
+      6: "Sat",
+      0: "Sun",
     },
     daysShort: {
       MONDAY: "Mon",
@@ -109,7 +118,7 @@ export default {
       THURSDAY: "Thu",
       FRIDAY: "Fri",
       SATURDAY: "Sat",
-      SUNDAY: "Sun"
+      SUNDAY: "Sun",
     },
     daysFirstLetter: {
       MONDAY: "M",
@@ -118,20 +127,20 @@ export default {
       THURSDAY: "Th",
       FRIDAY: "F",
       SATURDAY: "S",
-      SUNDAY: "Su"
+      SUNDAY: "Su",
     },
     repeatWeek: {
       ONE: "1 Week",
       TWO: "2 Weeks",
       THREE: "3 Weeks",
-      FOUR: "4 Weeks"
+      FOUR: "4 Weeks",
     },
     time: {
       hours: "hours",
-      minutes: "minutes"
+      minutes: "minutes",
     },
     timeShort: {
-      minutes: "min."
+      minutes: "min.",
     },
     months: {
       JANUARY: "January",
@@ -145,7 +154,7 @@ export default {
       SEPTEMBER: "September",
       OCTOBER: "October",
       NOVEMBER: "November",
-      DECEMBER: "December"
+      DECEMBER: "December",
     },
     monthsNumber: {
       0: "January",
@@ -159,7 +168,7 @@ export default {
       8: "September",
       9: "October",
       10: "November",
-      11: "December"
+      11: "December",
     },
     monthsShort: {
       JANUARY: "Jan",
@@ -173,20 +182,20 @@ export default {
       SEPTEMBER: "Sep",
       OCTOBER: "Oct",
       NOVEMBER: "Nov",
-      DECEMBER: "Déc"
+      DECEMBER: "Déc",
     },
     sessionType: {
       TO_COME_UP: "To come up",
       IN_PROGRESS: "In progress",
-      COMPLETED: "Completed"
+      COMPLETED: "Completed",
     },
     lang: {
       ENGLISH: "English",
-      FRENCH: "Français"
+      FRENCH: "Français",
     },
     langCode: {
       ENGLISH: "en",
-      FRENCH: "fr"
-    }
-  }
+      FRENCH: "fr",
+    },
+  },
 };

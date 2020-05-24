@@ -4,12 +4,12 @@
       <h2 class="title is-4">{{ title }}</h2>
       <slot name="buttons">
         <BButton
+          v-if="hasButton"
           id="OrganizationTemplateList-add"
           type="is-primary"
           icon-left="plus"
           @click="$emit('add')"
-          >{{ $t(addLabel) }}</BButton
-        >
+        >{{ $t(addLabel) }}</BButton>
       </slot>
     </header>
     <main class="OrganizationTemplateList-main" ref="template">
@@ -35,6 +35,10 @@ export default {
     addLabel: {
       type: String,
       default: "core.utils.add"
+    },
+    hasButton: {
+      type: Boolean,
+      default: true
     }
   },
   data() {

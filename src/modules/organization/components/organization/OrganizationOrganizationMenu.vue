@@ -6,11 +6,7 @@
       class="OrganizationOrganizationMenu-link"
       @click.native="setRouterAndNav(ROUTER.MEMBERS, NAV.MEMBERS)"
     >
-      <BIcon
-        size="is-small"
-        icon="account-group"
-        class="OrganizationOrganizationMenu-link-icon"
-      />
+      <BIcon size="is-small" icon="account-group" class="OrganizationOrganizationMenu-link-icon" />
       <span>{{ $t("organization.members.title") }}</span>
     </router-link>
     <router-link
@@ -26,10 +22,7 @@
       />
       <span>{{ $t("organization.sessions.title") }}</span>
     </router-link>
-    <div
-      v-if="router === ROUTER.SESSIONS && isPayed"
-      class="OrganizationOrganizationMenu-sublink"
-    >
+    <div v-if="router === ROUTER.SESSIONS && isPayed" class="OrganizationOrganizationMenu-sublink">
       <router-link
         :to="{ name: NAV.SESSIONS_TYPES }"
         class="OrganizationOrganizationMenu-sublink-item"
@@ -51,23 +44,28 @@
       class="OrganizationOrganizationMenu-link"
       @click.native="setRouterAndNav(ROUTER.FORUM, NAV.FORUM)"
     >
+      <BIcon size="is-small" icon="forum" class="OrganizationOrganizationMenu-link-icon" />
+      <span>{{ $t("organization.forum.title") }}</span>
+    </router-link>
+    <router-link
+      v-if="isPayed"
+      :to="{ name: NAV.STATISTIC }"
+      class="OrganizationOrganizationMenu-link"
+      @click.native="setRouterAndNav(ROUTER.STATISTIC, NAV.STATISTIC)"
+    >
       <BIcon
         size="is-small"
-        icon="forum"
+        icon="chart-areaspline-variant"
         class="OrganizationOrganizationMenu-link-icon"
       />
-      <span>{{ $t("organization.forum.title") }}</span>
+      <span>{{ $t("organization.statistic.title") }}</span>
     </router-link>
     <router-link
       :to="{ name: NAV.SETTINGS }"
       class="OrganizationOrganizationMenu-link"
       @click.native="setRouterAndNav(ROUTER.SETTINGS, NAV.SETTINGS)"
     >
-      <BIcon
-        size="is-small"
-        icon="settings"
-        class="OrganizationOrganizationMenu-link-icon"
-      />
+      <BIcon size="is-small" icon="settings" class="OrganizationOrganizationMenu-link-icon" />
       <span>{{ $t("organization.settings.title") }}</span>
     </router-link>
     <BSelect
@@ -77,22 +75,15 @@
       expanded
       v-model="nav"
     >
-      <option v-if="isPayed" :value="NAV.MEMBERS">
-        {{ $t("organization.members.title") }}
-      </option>
-      <option v-if="isPayed" :value="NAV.SESSIONS">
-        {{ $t("organization.sessions.title") }}
-      </option>
+      <option v-if="isPayed" :value="NAV.MEMBERS">{{ $t("organization.members.title") }}</option>
+      <option v-if="isPayed" :value="NAV.SESSIONS">{{ $t("organization.sessions.title") }}</option>
       <option v-if="isPayed" :value="NAV.SESSIONS_TYPES">
         {{ $t("organization.sessions.title") }} -
         {{ $t("organization.typeSessions.title") }}
       </option>
-      <option v-if="isPayed" :value="NAV.FORUM">
-        {{ $t("organization.forum.title") }}
-      </option>
-      <option :value="NAV.SETTINGS">
-        {{ $t("organization.settings.title") }}
-      </option>
+      <option v-if="isPayed" :value="NAV.FORUM">{{ $t("organization.forum.title") }}</option>
+      <option v-if="isPayed" :value="NAV.STATISTIC">{{ $t("organization.statistic.title") }}</option>
+      <option :value="NAV.SETTINGS">{{ $t("organization.settings.title") }}</option>
     </BSelect>
   </div>
 </template>
@@ -105,6 +96,7 @@ const ROUTER = {
   SESSIONS: "SESSIONS",
   SETTINGS: "SETTINGS",
   FORUM: "FORUM",
+  STATISTIC: "STATISTIC",
   NOT_FOUND: "NOT_FOUND"
 };
 
@@ -114,7 +106,8 @@ const NAV = {
   SESSIONS_TYPES: "organization-manage-sessions-types",
   SESSIONS_TEMPLATES: "organization-manage-sessions-templates",
   SETTINGS: "organization-manage-settings",
-  FORUM: "organization-manage-forum"
+  FORUM: "organization-manage-forum",
+  STATISTIC: "organization-manage-statistic"
 };
 
 import { mapGetters } from "vuex";
@@ -157,6 +150,10 @@ export default {
 
       case NAV.SETTINGS:
         this.router = ROUTER.SETTINGS;
+        break;
+
+      case NAV.STATISTIC:
+        this.router = ROUTER.STATISTIC;
         break;
 
       default:

@@ -6,33 +6,39 @@ export default [
       {
         path: "members",
         name: "organization-manage-members",
-        component: () => import("@organization/views/Members")
+        component: () => import("@organization/views/Members"),
       },
       {
         path: "settings",
         name: "organization-manage-settings",
-        component: () => import("@organization/views/Settings")
+        component: () => import("@organization/views/Settings"),
       },
       {
         path: "sessions",
         name: "organization-manage-sessions",
-        component: () => import("@organization/views/Sessions/Sessions")
+        component: () => import("@organization/views/Sessions/Sessions"),
       },
       {
         path: "sessions/categories",
         name: "organization-manage-sessions-types",
-        component: () => import("@organization/views/Sessions/TypeSessions")
+        component: () => import("@organization/views/Sessions/TypeSessions"),
       },
       {
         path: "sessions/templates",
         name: "organization-manage-sessions-templates",
-        component: () => import("@organization/views/Sessions/TemplateSessions")
+        component: () =>
+          import("@organization/views/Sessions/TemplateSessions"),
       },
       {
         path: "forum",
         name: "organization-manage-forum",
-        component: () => import("@organization/views/Forum")
-      }
-    ]
-  }
+        component: () => import("@organization/views/Forum"),
+      },
+      {
+        path: "statistic",
+        name: "organization-manage-statistic",
+        component: () => import("@organization/views/Statistic"),
+      },
+    ],
+  },
 ];
