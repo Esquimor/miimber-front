@@ -1,5 +1,6 @@
 import api from "@/utils/api";
 import * as types from "@/utils/types";
+import axios from "axios";
 
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -16,6 +17,7 @@ export default {
     categoriesForum: [],
     templateSessions: [],
     statistics: [],
+    addresses: [],
   },
   getters: {
     organization: (state) => state.organization,
@@ -25,6 +27,7 @@ export default {
     sessions: (state) => state.sessions,
     categoriesForum: (state) => state.categoriesForum,
     statistics: (state) => state.statistics,
+    addresses: (state) => state.addresses,
   },
   actions: {
     setOrganization({ commit, dispatch }, id) {
@@ -615,6 +618,57 @@ export default {
           return Promise.reject(e);
         });
     },
+    setAddresses({ commit, state }) {
+      return api
+        .get(
+          `organization/${state.organization.id}/address`,
+          {},
+          { errorMessage: true }
+        )
+        .then(({ data }) => {
+          commit(types.ORG_SET_ADDRESSES, data);
+        })
+        .catch((e) => {
+          return Promise.reject(e);
+        });
+    },
+    addAddress(
+      { commit, state, dispatch },
+      { line1, line2, city, zip, country }
+    ) {
+      return axios
+        .get(
+          `https://nominatim.openstreetmap.org/search/${line1}%20${city}%20${zip}%20${country}?format=json&limit=1`
+        )
+        .then(({ data }) => {
+          if (data.length !== 1) {
+            dispatch("core.setMessage", "error", { root: true });
+            return Promise.reject();
+          }
+          console.log(data[0]);
+          api
+            .post(
+              `address/`,
+              {
+                line1,
+                line2,
+                city,
+                zip,
+                country,
+                latitude: data.lat,
+                longitude: data.lon,
+                organizationId: state.organization.id,
+              },
+              { errorMessage: true }
+            )
+            .then(({ data }) => {
+              commit(types.ORG_ADD_ADDRESSE, data);
+            })
+            .catch((e) => {
+              return Promise.reject(e);
+            });
+        });
+    },
   },
   mutations: {
     [types.ORG_SET_ORGANIZATION](state, organization) {
@@ -753,6 +807,12 @@ export default {
     },
     [types.ORG_SET_STATISTIC](state, statistics) {
       state.statistics = statistics;
+    },
+    [types.ORG_SET_ADDRESSES](state, addresses) {
+      state.addresses = addresses;
+    },
+    [types.ORG_ADD_ADDRESSE](state, address) {
+      state.addresses.push(address);
     },
   },
 };

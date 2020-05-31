@@ -237,5 +237,8 @@ export default {
         attendees: "Nombre de participants",
       },
     },
+    address: {
+      title: "Adresses",
+    },
   },
 };

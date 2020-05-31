@@ -10,23 +10,19 @@
           field="name"
           :label="$t('organization.templateSessions.table.name')"
           sortable
-          >{{ row.title }}</BTableColumn
-        >
+        >{{ row.title }}</BTableColumn>
         <BTableColumn
           field="day"
           :label="$t('organization.templateSessions.table.day')"
-          >{{ $t(`core.daysNumber[${row.day}]`) }}</BTableColumn
-        >
+        >{{ $t(`core.daysNumber[${row.day}]`) }}</BTableColumn>
         <BTableColumn
           field="startHour"
           :label="$t('organization.templateSessions.table.startHour')"
-          >{{ row.startHour | formatTime }}</BTableColumn
-        >
+        >{{ row.startHour | formatTime }}</BTableColumn>
         <BTableColumn
           field="endHour"
           :label="$t('organization.templateSessions.table.endHour')"
-          >{{ row.endHour | formatTime }}</BTableColumn
-        >
+        >{{ row.endHour | formatTime }}</BTableColumn>
         <BTableColumn class="OrganizationMembers-column-manage" :width="200">
           <OrganizationTemplateSessionsDropdown
             @see="see(row)"
@@ -106,21 +102,13 @@ export default {
     }
   },
   mounted() {
-    this.$store
-      .dispatch("organization/setTemplateSessions")
-      .then(() => {
-        this.$store
-          .dispatch("organization/setTypeSessions")
-          .then(() => {
-            this.loading = false;
-          })
-          .catch(() => {
-            this.loading = false;
-          });
-      })
-      .catch(() => {
-        this.loading = false;
-      });
+    Promise.all([
+      this.$store.dispatch("organization/setTemplateSessions"),
+      this.$store.dispatch("organization/setTypeSessions"),
+      this.$store.dispatch("organization/setAddresses")
+    ]).then(() => {
+      this.loading = false;
+    });
   }
 };
 </script>

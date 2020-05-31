@@ -1,8 +1,5 @@
 <template>
-  <OrganizationTemplateList
-    :title="$t('organization.sessions.title')"
-    :loading="loading"
-  >
+  <OrganizationTemplateList :title="$t('organization.sessions.title')" :loading="loading">
     <template v-slot:buttons>
       <div class="OrganizationSession-buttons">
         <BButton
@@ -11,8 +8,7 @@
           type="is-primary"
           icon-left="plus"
           @click="addSimple"
-          >{{ $t("organization.sessions.button.simple") }}</BButton
-        >
+        >{{ $t("organization.sessions.button.simple") }}</BButton>
 
         <b-dropdown aria-role="list">
           <BButton
@@ -22,15 +18,18 @@
             type="is-primary"
             icon-left="plus"
             @click="addMultiple"
-            >{{ $t("organization.sessions.button.multiple") }}</BButton
-          >
+          >{{ $t("organization.sessions.button.multiple") }}</BButton>
 
-          <b-dropdown-item aria-role="listitem" @click="addFromTemplate">{{
+          <b-dropdown-item aria-role="listitem" @click="addFromTemplate">
+            {{
             $t("organization.sessions.button.fromTemplate")
-          }}</b-dropdown-item>
-          <b-dropdown-item aria-role="listitem" @click="addAll">{{
+            }}
+          </b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="addAll">
+            {{
             $t("organization.sessions.button.newAll")
-          }}</b-dropdown-item>
+            }}
+          </b-dropdown-item>
         </b-dropdown>
       </div>
     </template>
@@ -43,44 +42,31 @@
         </div>
         <div class="column">
           <BField :label="$t('organization.sessions.label.between')">
-            <BDatepicker
-              v-model="dates"
-              range
-              @input="setSessions"
-              :nearbyMonthDays="false"
-            ></BDatepicker>
+            <BDatepicker v-model="dates" range @input="setSessions" :nearbyMonthDays="false"></BDatepicker>
           </BField>
         </div>
       </div>
     </div>
     <BTable :data="filteredSession" striped paginated :per-page="25">
       <template v-slot="{ row }">
-        <BTableColumn
-          field="title"
-          :label="$t('organization.sessions.table.title')"
-          >{{ row.title }}</BTableColumn
-        >
+        <BTableColumn field="title" :label="$t('organization.sessions.table.title')">{{ row.title }}</BTableColumn>
         <BTableColumn
           field="title"
           :label="$t('organization.sessions.table.date')"
-          >{{ row.start | formatDate }}</BTableColumn
-        >
+        >{{ row.start | formatDate }}</BTableColumn>
         <BTableColumn
           field="title"
           :label="$t('organization.sessions.table.start')"
-          >{{ row.start | formatHour }}</BTableColumn
-        >
+        >{{ row.start | formatHour }}</BTableColumn>
         <BTableColumn
           field="title"
           :label="$t('organization.sessions.table.end')"
-          >{{ row.end | formatHour }}</BTableColumn
-        >
+        >{{ row.end | formatHour }}</BTableColumn>
         <BTableColumn
           field="title"
           :label="$t('organization.sessions.table.typeSession')"
           sortable
-          >{{ row.typeSession.name }}</BTableColumn
-        >
+        >{{ row.typeSession.name }}</BTableColumn>
         <BTableColumn class="OrganizationMembers-column-manage" :width="200">
           <OrganizationSessionsDropdown
             :id="row.id"
@@ -210,23 +196,16 @@ export default {
         .add(1, "month")
         .toDate()
     ];
-    this.$store
-      .dispatch("organization/setSessions", {
+    Promise.all([
+      this.$store.dispatch("organization/setSessions", {
         minDate: this.dates[0],
         maxDate: this.dates[1]
-      })
-      .then(() => {
-        this.$store.dispatch("organization/setTypeSessions").then(() => {
-          this.$store
-            .dispatch("organization/setTemplateeSessionsGoing")
-            .then(() => {
-              this.loading = false;
-            });
-        });
-      })
-      .catch(() => {
-        this.loading = false;
-      });
+      }),
+      this.$store.dispatch("organization/setTypeSessions"),
+      this.$store.dispatch("organization/setAddresses")
+    ]).then(() => {
+      this.loading = false;
+    });
   }
 };
 </script>

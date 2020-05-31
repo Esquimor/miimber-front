@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       hasFocus: false,
-      editor: ""
+      editor: null
     };
   },
   methods: {

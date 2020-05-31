@@ -61,6 +61,15 @@
       <span>{{ $t("organization.statistic.title") }}</span>
     </router-link>
     <router-link
+      v-if="isPayed"
+      :to="{ name: NAV.ADDRESS }"
+      class="OrganizationOrganizationMenu-link"
+      @click.native="setRouterAndNav(ROUTER.ADDRESS, NAV.ADDRESS)"
+    >
+      <BIcon size="is-small" icon="map-marker" class="OrganizationOrganizationMenu-link-icon" />
+      <span>{{ $t("organization.address.title") }}</span>
+    </router-link>
+    <router-link
       :to="{ name: NAV.SETTINGS }"
       class="OrganizationOrganizationMenu-link"
       @click.native="setRouterAndNav(ROUTER.SETTINGS, NAV.SETTINGS)"
@@ -83,6 +92,7 @@
       </option>
       <option v-if="isPayed" :value="NAV.FORUM">{{ $t("organization.forum.title") }}</option>
       <option v-if="isPayed" :value="NAV.STATISTIC">{{ $t("organization.statistic.title") }}</option>
+      <option v-if="isPayed" :value="NAV.ADDRESS">{{ $t("organization.address.title") }}</option>
       <option :value="NAV.SETTINGS">{{ $t("organization.settings.title") }}</option>
     </BSelect>
   </div>
@@ -97,6 +107,7 @@ const ROUTER = {
   SETTINGS: "SETTINGS",
   FORUM: "FORUM",
   STATISTIC: "STATISTIC",
+  ADDRESS: "ADDRESS",
   NOT_FOUND: "NOT_FOUND"
 };
 
@@ -107,7 +118,8 @@ const NAV = {
   SESSIONS_TEMPLATES: "organization-manage-sessions-templates",
   SETTINGS: "organization-manage-settings",
   FORUM: "organization-manage-forum",
-  STATISTIC: "organization-manage-statistic"
+  STATISTIC: "organization-manage-statistic",
+  ADDRESS: "organization-manage-address"
 };
 
 import { mapGetters } from "vuex";
@@ -154,6 +166,10 @@ export default {
 
       case NAV.STATISTIC:
         this.router = ROUTER.STATISTIC;
+        break;
+
+      case NAV.ADDRESS:
+        this.router = ROUTER.ADDRESS;
         break;
 
       default:

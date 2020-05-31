@@ -39,6 +39,11 @@ export default [
         name: "organization-manage-statistic",
         component: () => import("@organization/views/Statistic"),
       },
+      {
+        path: "address",
+        name: "organization-manage-address",
+        component: () => import("@organization/views/Address"),
+      },
     ],
   },
 ];

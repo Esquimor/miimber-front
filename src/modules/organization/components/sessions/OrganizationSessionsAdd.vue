@@ -61,13 +61,8 @@
     </div>
     <div class="columns">
       <div class="column" :class="{ 'is-half': !hasLimit }">
-        <BField
-          :label="$t('organization.sessions.label.hasLimit')"
-          style="height: 68px;"
-        >
-          <BSwitch v-model="hasLimit">
-            {{ hasLimit ? $t("core.utils.yes") : $t("core.utils.no") }}
-          </BSwitch>
+        <BField :label="$t('organization.sessions.label.hasLimit')" style="height: 68px;">
+          <BSwitch v-model="hasLimit">{{ hasLimit ? $t("core.utils.yes") : $t("core.utils.no") }}</BSwitch>
         </BField>
       </div>
       <div class="column" v-if="hasLimit">
@@ -84,9 +79,24 @@
               v-for="typeSession in typeSessions"
               :value="typeSession.id"
               :key="typeSession.id"
-              >{{ typeSession.name }}</option
-            >
+            >{{ typeSession.name }}</option>
           </BSelect>
+        </BField>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column is-half">
+        <BField label="Présentidel" style="height: 68px;">
+          <BSwitch
+            v-model="session.presential"
+          >{{ session.presential ? $t("core.utils.yes") : $t("core.utils.no") }}</BSwitch>
+        </BField>
+      </div>
+    </div>
+    <div class="columns" v-if="session.presential">
+      <div class="column is-half">
+        <BField label="Address">
+          <SelectAddress v-model="session.address" :addresses="addresses" />
         </BField>
       </div>
     </div>
@@ -116,13 +126,15 @@ dayjs.extend(customParseFormat);
 import TemplateSidePanelRight from "@core/template/TemplateSidePanelRight";
 
 import InputTipTap from "@organization/components/mixin/InputTipTap";
+import SelectAddress from "@organization/components/mixin/SelectAddress";
 
 export default {
   name: "OrganizationSessionsAdd",
   mixins: [calendar],
   components: {
     TemplateSidePanelRight,
-    InputTipTap
+    InputTipTap,
+    SelectAddress
   },
   data() {
     const today = new Date();
@@ -144,7 +156,9 @@ export default {
         endHour: null,
         typeSession: null,
         date: null,
-        limit: 0
+        limit: 0,
+        presential: true,
+        address: {}
       },
       recurrence: {
         days: -1
@@ -154,7 +168,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      typeSessions: "organization/typeSessions"
+      typeSessions: "organization/typeSessions",
+      addresses: "organization/addresses"
     }),
     canConfirm() {
       return (
@@ -216,6 +231,7 @@ export default {
   },
   mounted() {
     this.session.typeSession = this.typeSessions[0].id;
+    this.session.address = this.addresses[0];
   }
 };
 </script>
